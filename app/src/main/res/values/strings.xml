@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">TranslateApplication</string>
+    <string name="title">Translation</string>
+    <string name="text">Text</string>
+    <string name="camera">Camera</string>
+    <string name="voice">Voice</string>
+    <string name="scan">Scan</string>
+    <string name="text_detail">Type your text for translating</string>
+    <string name="camera_detail">Take picture and select your text</string>
+    <string name="voice_detail">Speak and translate</string>
+    <string name="scan_detail">Discover everything with camera</string>
+    <string name="more_app">More Apps</string>
+    <string name="hint">Type text or phrase...</string>
+    <string name="scanning">Scanning text ...</string>
+    <string name="speech_prompt">Say something…</string>
+    <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="setting">Setting</string>
+    <string name="upgrade_premium">upgrade to premium</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="ads">Ads Banner</string>
+    <string name="feedback">Feedback</string>
+    <string name="rate_app">Rate App</string>
+    <string name="support">Support</string>
+    <string name="share_app">Share App</string>
+    <string name="restore">Restore Purchase</string>
+</resources>

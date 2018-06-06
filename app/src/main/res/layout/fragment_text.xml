@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_toolbar"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_item"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.5"
+                android:orientation="horizontal">
+
+                <com.catviet.android.translation.utils.customview.TextViewRegular
+                    android:id="@+id/tv_language_detect"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:gravity="center"
+                    android:text="English"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blue_4"
+                    android:textSize="@dimen/ts_14"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/img_choose_detect"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:src="@drawable/ic_down" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_change"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:src="@drawable/ic_change" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.5"
+                android:orientation="horizontal">
+
+                <com.catviet.android.translation.utils.customview.TextViewRegular
+                    android:id="@+id/tv_language_translate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:gravity="center"
+                    android:text="Vietnamese"
+                    android:textAllCaps="true"
+                    android:textColor="@color/blue_4"
+                    android:textSize="@dimen/ts_14"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/img_choose_translate"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:src="@drawable/ic_down" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_translate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/dip_55" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_50"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_type" />
+
+            <com.catviet.android.translation.utils.customview.EditTextLight
+                android:id="@+id/ed_type"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:background="@android:color/white"
+                android:hint="@string/hint"
+                android:paddingLeft="@dimen/dip_15"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="@dimen/ts_14" />
+
+            <ImageView
+                android:id="@+id/bt_send"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_send" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

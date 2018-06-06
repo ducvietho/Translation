@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/grey_1"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.catviet.android.translation.screen.home.HomeActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/frame_layout"
+        tools:ignore="InvalidId"
+        android:layout_marginBottom="@dimen/dip_101"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:id="@+id/id_bgr_banner_relax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="visible">
+
+            <View
+                android:id="@+id/id_line_top_banner"
+                android:layout_width="wrap_content"
+                android:layout_height="1px"
+                android:layout_centerHorizontal="true"
+                android:background="#d4d4d4" />
+
+            <RelativeLayout
+                android:id="@+id/id_layout_banner_relax"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/id_line_top_banner"
+                android:background="@android:color/white"></RelativeLayout>
+        </RelativeLayout>
+        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+            android:id="@+id/bnve"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dip_50"
+
+            android:background="@android:color/white"
+            app:itemIconTint="@color/bnv_tab_item_selector"
+            app:menu="@menu/bottom_menu" />
+    </LinearLayout>
+
+</RelativeLayout>

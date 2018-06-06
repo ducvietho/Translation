@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bt_voice"
+        android:title=""
+        android:icon="@drawable/icon_voice"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bt_text"
+        android:title=""
+        android:icon="@drawable/icon_text"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bt_camera"
+        android:title=""
+        android:icon="@drawable/icon_camera"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bt_scan"
+        android:title=""
+        android:icon="@drawable/icon_scan"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/bt_setting"
+        android:title=""
+        android:icon="@drawable/icon_setting"
+        app:showAsAction="always"/>
+</menu>

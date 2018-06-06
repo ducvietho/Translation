@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:layout_marginTop="@dimen/dip_10"
+              android:layout_marginBottom="@dimen/dip_10"
+              android:layout_marginLeft="@dimen/dip_10"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_app"
+            android:layout_width="@dimen/dip_45"
+            android:layout_height="@dimen/dip_45"
+            android:layout_gravity="center" />
+
+        <com.catviet.android.translation.utils.customview.TextViewRegular
+            android:id="@+id/tv_name"
+            android:layout_width="@dimen/dip_70"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Been together"
+            android:layout_marginTop="@dimen/dip_5"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/ts_16" />
+
+    </LinearLayout>
+
+</LinearLayout>

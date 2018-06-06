@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="height_toolbar">60dp</dimen>
+    <dimen name="height_title">50dp</dimen>
+    <dimen name="ts_14">14sp</dimen>
+    <dimen name="ts_16">16sp</dimen>
+    <dimen name="ts_18">18sp</dimen>
+    <dimen name="ts_20">20sp</dimen>
+    <dimen name="height_item">55dp</dimen>
+    <dimen name="dip_5">5dp</dimen>
+    <dimen name="dip_8">8dp</dimen>
+    <dimen name="dip_10">10dp</dimen>
+    <dimen name="dip_15">15dp</dimen>
+    <dimen name="dip_20">20dp</dimen>
+    <dimen name="dip_30">30dp</dimen>
+    <dimen name="dip_40">40dp</dimen>
+    <dimen name="dip_45">45dp</dimen>
+    <dimen name="dip_50">50dp</dimen>
+    <dimen name="dip_60">60dp</dimen>
+    <dimen name="dip_70">70dp</dimen>
+    <dimen name="dip_55">55dp</dimen>
+    <dimen name="dip_65">65dp</dimen>
+    <dimen name="dip_80">80dp</dimen>
+    <dimen name="dip_101">101dp</dimen>
+    <dimen name="dip_152">152dp</dimen>
+    <dimen name="height_language">180dp</dimen>
+    <dimen name="height_photo">75dp</dimen>
+</resources>

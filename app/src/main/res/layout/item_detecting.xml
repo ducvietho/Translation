@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="@dimen/dip_10"
+              android:orientation="horizontal"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dip_30"
+        android:layout_marginTop="@dimen/dip_20"
+        android:layout_weight="1"
+        android:id="@+id/img_country"
+         />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="7"
+        android:orientation="vertical">
+
+        <com.catviet.android.translation.utils.customview.TextViewRegular
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ts_14"
+            android:id="@+id/tv_language"
+            android:layout_marginBottom="@dimen/dip_5"
+            android:layout_marginLeft="@dimen/dip_10"
+            android:text="English" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dip_10"
+            app:cardCornerRadius="4dp"
+            app:cardBackgroundColor="@color/blue_1">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <com.catviet.android.translation.utils.customview.TextViewLight
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dip_10"
+                        android:layout_marginTop="@dimen/dip_10"
+                        android:layout_weight="6"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/dip_15"
+                        android:paddingRight="@dimen/dip_15"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/ts_14"
+                        android:id="@+id/tvText"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <ImageView
+                android:layout_width="@dimen/dip_30"
+                android:layout_height="@dimen/dip_30"
+                android:layout_gravity="center"
+                android:id="@+id/img_detecting"/>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</LinearLayout>
