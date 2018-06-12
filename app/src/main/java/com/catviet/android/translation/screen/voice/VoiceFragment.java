@@ -227,10 +227,16 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_voice_detect:
-                promptSpeechInput(0);
+                if(imgVOiceDetect.getVisibility()==View.GONE){
+                    promptSpeechInput(0);
+                }
+
                 break;
             case R.id.bt_voice_translate:
-                promptSpeechInput(1);
+                if(imgVoiceTranslate.getVisibility()==View.GONE){
+                    promptSpeechInput(1);
+                }
+
                 break;
             case R.id.img_change:
                 SharedPreferences preferencesDetect = v.getContext().getSharedPreferences(Constants.PRE_DETECT_VOICE, MODE_PRIVATE);

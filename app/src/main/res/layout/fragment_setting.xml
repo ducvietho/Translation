@@ -23,7 +23,7 @@
             android:background="@color/tela_8"/>
         <com.catviet.android.translation.utils.customview.TextViewRegular
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dip_60"
+            android:layout_height="@dimen/dip_50"
             android:textSize="@dimen/ts_14"
             android:textAllCaps="true"
             android:textColor="@android:color/black"
@@ -94,7 +94,7 @@
         </android.support.v7.widget.CardView>
         <com.catviet.android.translation.utils.customview.TextViewRegular
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dip_60"
+            android:layout_height="@dimen/dip_50"
             android:textSize="@dimen/ts_14"
             android:textAllCaps="true"
             android:textColor="@android:color/black"
@@ -116,7 +116,7 @@
         </android.support.v7.widget.CardView>
         <com.catviet.android.translation.utils.customview.TextViewRegular
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dip_60"
+            android:layout_height="@dimen/dip_50"
             android:textSize="@dimen/ts_14"
             android:textAllCaps="true"
             android:textColor="@android:color/black"

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +24,9 @@ import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.catviet.android.translation.R;
 import com.catviet.android.translation.utils.AppUtil;
+import com.example.vdconfigppclinkadsandroid.data.ServerConfig;
+import com.example.vdconfigppclinkadsandroid.notifications.Notification;
+import com.example.vdconfigppclinkadsandroid.notifications.NotificationsHelper;
 
 
 import java.util.ArrayList;
@@ -65,22 +69,22 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         layoutShare.setOnClickListener(this);
         layoutUpgrade.setOnClickListener(this);
         layoutRestore.setOnClickListener(this);
-       // setupMoreApp();
+        setupMoreApp();
 
         return v;
     }
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        NotificationsHelper.getInstance().onDestroy();
-//        MediationAdHelper.getInstance().onDestroy();
+        NotificationsHelper.getInstance().onDestroy();
+    //    MediationAdHelper.getInstance().onDestroy();
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //NotificationsHelper.getInstance().onResume();
+        NotificationsHelper.getInstance().onResume();
     }
 
 
@@ -138,23 +142,24 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         });
 
     }
-//    public void setupMoreApp() {
-//        final ArrayList<Notification> list = ServerConfig.getInstance().getListMoreApp();
-//        if (list != null && list.size() > 0) {
-//            int i = 0;
-//            while (i < list.size()) {
-//                if (TextUtils.isEmpty(list.get(i).getAdIconMoreApps())) {
-//                    list.remove(i);
-//                } else {
-//                    i++;
-//                }
-//            }
-//            if (list.size() > 0) {
-//                mRecyclerView.setLayoutManager(new GridLayoutManager(v.getContext(),3));
-//                mRecyclerView.setAdapter(new MoreAppAdapter(list));
-//            }
-//        }
-//    }
+    public void setupMoreApp() {
+        final ArrayList<Notification> list = ServerConfig.getInstance().getListMoreApp();
+        if (list != null && list.size() > 0) {
+            int i = 0;
+            while (i < list.size()) {
+                if (TextUtils.isEmpty(list.get(i).getAdIconMoreApps())) {
+                    list.remove(i);
+                } else {
+                    i++;
+                }
+            }
+            if (list.size() > 0) {
+                mRecyclerView.setLayoutManager(new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,
+                        false));
+                mRecyclerView.setAdapter(new MoreAppAdapter(list));
+            }
+        }
+    }
 
 
 }

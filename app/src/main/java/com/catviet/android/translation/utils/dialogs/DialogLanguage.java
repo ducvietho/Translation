@@ -154,7 +154,6 @@ public class DialogLanguage implements OnClickItem<Language> {
         mLanguageListTranslate.add(new Language("Korean", "ko", R.drawable.ic_korea));
         mLanguageListTranslate.add(new Language("Russian", "ru", R.drawable.ic_russia));
         mLanguageListTranslate.add(new Language("Spanish", "es", R.drawable.ic_spain));
-
         mLanguageListTranslate.add(new Language("Indonesia","id-ID",R.drawable.ic_indonesia));
         mLanguageListTranslate.add(new Language("China","zh-CN",R.drawable.ic_china));
         mLanguageListTranslate.add(new Language("Malaysia","ms-MY",R.drawable.ic_malaysia));
@@ -264,7 +263,7 @@ public class DialogLanguage implements OnClickItem<Language> {
         mLanguageList.add(new Language("Egypt","ar",R.drawable.ic_egypt));
         mLanguageList.add(new Language("Belarus","be",R.drawable.ic_belarus));
         mLanguageList.add(new Language("Bulgaria","bg",R.drawable.ic_bulgaria));
-        mLanguageList.add(new Language("Chinese","zh*",R.drawable.ic_china));
+        mLanguageList.add(new Language("Chinese","zh-CN",R.drawable.ic_china));
         mLanguageList.add(new Language("Croatia","hr",R.drawable.ic_croatia));
         mLanguageList.add(new Language("Czech","cs",R.drawable.ic_czech));
         mLanguageList.add(new Language("Danish","da",R.drawable.ic_denmark));

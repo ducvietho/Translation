@@ -155,7 +155,9 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imgCountry.setImageResource(translate.getImage());
             tvLanguage.setText(translate.getLanguage());
             tvText.setText(translate.getText());
-            Ion.with(mImageView).animateGif(AnimateGifMode.ANIMATE).load("file:///android_asset/loading_translation.gif");
+//            Ion.with(mImageView)
+//                    .animateGif(AnimateGifMode.ANIMATE)
+//                    .load("file:///android_asset/2034376469_goldballs.gif");
 
         }
     }

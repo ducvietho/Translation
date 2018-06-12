@@ -16,11 +16,11 @@
         android:title=""
         android:icon="@drawable/icon_camera"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/bt_scan"
-        android:title=""
-        android:icon="@drawable/icon_scan"
-        app:showAsAction="always"/>
+    <!--<item-->
+        <!--android:id="@+id/bt_scan"-->
+        <!--android:title=""-->
+        <!--android:icon="@drawable/icon_scan"-->
+        <!--app:showAsAction="always"/>-->
     <item
         android:id="@+id/bt_setting"
         android:title=""

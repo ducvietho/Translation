@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -23,12 +24,22 @@ import com.catviet.android.translation.screen.setting.SettingFragment;
 import com.catviet.android.translation.screen.text.TextFragment;
 import com.catviet.android.translation.screen.voice.VoiceFragment;
 import com.catviet.android.translation.utils.Constants;
+import com.example.vdconfigppclinkadsandroid.data.ServerConfig;
+import com.example.vdconfigppclinkadsandroid.delegate.INotificationsHelper;
+import com.example.vdconfigppclinkadsandroid.notifications.NotificationsHelper;
+import com.example.vdconfigppclinkadsandroid.utils.AppDataManager;
+import com.example.vdconfigppclinkadsandroid.utils.ResourceManager;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-//implements IMain,IMediationAdHelper,INotificationsHelper
-public class HomeActivity extends AppCompatActivity  {
+
+public class HomeActivity extends AppCompatActivity implements INotificationsHelper {
     public static final String EXTRA_POSITION = "postion";
     public static final String EXTRA_TEXT = "text";
     @BindView(R.id.bnve)
@@ -39,6 +50,10 @@ public class HomeActivity extends AppCompatActivity  {
     RelativeLayout layoutBannerView;
     @BindView(R.id.id_line_top_banner)
     View lineTopBanner;
+    @BindView(R.id.frame_layout)
+    FrameLayout mFrameLayout;
+    @BindView(R.id.ad_view)
+    AdView mAdView;
     boolean doubleBackToExitPressedOnce = false;
 
     public static Intent getIntent(Context context, int postision, String text) {
@@ -53,7 +68,7 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onStart() {
         super.onStart();
-       // NotificationsHelper.getInstance().onStart();
+        NotificationsHelper.getInstance().onStart();
     }
 
     @Override
@@ -61,9 +76,19 @@ public class HomeActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
+
         SharedPreferences sharedPreferences = getSharedPreferences(Constants.PRE_PREMIUM_USER,MODE_PRIVATE);
         boolean isPremium = sharedPreferences.getBoolean(Constants.EXTRA_IS_PREMIUM_USER,false);
-        //initAds(isPremium);
+        initAds(isPremium);
+        if(!isPremium){
+//            MobileAds.initialize(this, Constants.APP_ADSMOB_ID);
+            AdRequest adRequest = new AdRequest.Builder()
+                    .addTestDevice("B1275FEF015C0FDAF096A04ADDC853BB")
+                    .build();
+            mAdView.loadAd(adRequest);
+        }else {
+            mAdView.setVisibility(View.GONE);
+        }
         mNavigationView.enableAnimation(false);
         mNavigationView.enableShiftingMode(false);
         mNavigationView.enableItemShiftingMode(false);
@@ -143,7 +168,7 @@ public class HomeActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
-       //NotificationsHelper.getInstance().onResume();
+        NotificationsHelper.getInstance().onResume();
     }
 
 
@@ -232,30 +257,29 @@ public class HomeActivity extends AppCompatActivity  {
 //
 //    }
 //
-//    @Override
-//    public void onGetConfigSuccess() {
-//        ServerConfig.getInstance().getListMoreApp();
-//        MediationAdHelper.getInstance().configure(HomeActivity.this);
-//        MediationAdHelper.getInstance().configureReward(HomeActivity.this);
-//    }
+    @Override
+    public void onGetConfigSuccess() {
+        ServerConfig.getInstance().getListMoreApp();
+
+    }
+
+    @Override
+    public void userJustClickTryNowWithBonusData(JSONObject jobjData) {
+
+    }
 //
-//    @Override
-//    public void userJustClickTryNowWithBonusData(JSONObject jobjData) {
-//
-//    }
-//
-//    private void initAds(boolean isPremiumUser) {
-//        ResourceManager.getInstance().initResource(HomeActivity.this);
-//        AppDataManager.getInstance().init(HomeActivity.this, isPremiumUser);
-//        NotificationsHelper.getInstance().configure(HomeActivity.this, true, getPackageName());
-//        NotificationsHelper.getInstance().onStart();
-//
-//        //Quang cao video
-////        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
-////        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-////        mRewardedVideoAd.setRewardedVideoAdListener(this);
-////        loadRewardedVideoAd();
-//    }
+    private void initAds(boolean isPremiumUser) {
+        ResourceManager.getInstance().initResource(HomeActivity.this);
+        AppDataManager.getInstance().init(HomeActivity.this, isPremiumUser);
+        NotificationsHelper.getInstance().configure(HomeActivity.this, true, getPackageName());
+        NotificationsHelper.getInstance().onStart();
+
+        //Quang cao video
+//        MobileAds.initialize(this, "ca-app-pub-3940256099942544~3347511713");
+//        mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+//        mRewardedVideoAd.setRewardedVideoAdListener(this);
+//        loadRewardedVideoAd();
+    }
 
     private void startFragment(Fragment fragment) {
         if (fragment != null) {
