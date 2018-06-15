@@ -31,7 +31,6 @@ import com.example.vdconfigppclinkadsandroid.utils.AppDataManager;
 import com.example.vdconfigppclinkadsandroid.utils.ResourceManager;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import org.json.JSONObject;
@@ -81,7 +80,6 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
         boolean isPremium = sharedPreferences.getBoolean(Constants.EXTRA_IS_PREMIUM_USER,false);
         initAds(isPremium);
         if(!isPremium){
-//            MobileAds.initialize(this, Constants.APP_ADSMOB_ID);
             AdRequest adRequest = new AdRequest.Builder()
                     .addTestDevice("B1275FEF015C0FDAF096A04ADDC853BB")
                     .build();
@@ -129,7 +127,6 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
         });
         Log.i("device infor:", Settings.Secure.getString(HomeActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID));
-        //showBanner();
     }
 
     @Override
@@ -160,8 +157,7 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        NotificationsHelper.getInstance().onDestroy();
-//        MediationAdHelper.getInstance().onDestroy();
+        NotificationsHelper.getInstance().onDestroy();
 
     }
 
@@ -172,91 +168,7 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
     }
 
 
-//    @Override
-//    public void onClickBannerAd() {
-//
-//    }
-//
-//    @Override
-//    public void onClickForceShowInterstitialAll() {
-//
-//    }
-//
-//    @Override
-//    public void onClickForceShowInterstitialImageOnly() {
-//
-//    }
-//
-//    @Override
-//    public void onClickForceShowInterstitialVideoOnly() {
-//
-//    }
-//
-//    @Override
-//    public void onClickShowInterstitialConstaintServer() {
-//
-//    }
-//
-//    @Override
-//    public void onClickNativeMopubAd() {
-//
-//    }
-//
-//    @Override
-//    public void onClickRemoveAds() {
-//
-//    }
-//
-//    @Override
-//    public void onBannerAdLoaded(View bannerView) {
-//
-//    }
-//
-//    @Override
-//    public void onGetBannerError() {
-//
-//    }
-//
-//    @Override
-//    public void onNetworkChange(boolean isConnected) {
-//
-//    }
-//
-//    @Override
-//    public void onCompleteClickFullAds(boolean isClick) {
-//
-//    }
-//
-//    @Override
-//    public void setupNativeFBAds(boolean isRemoveNative) {
-//
-//    }
-//
-//    @Override
-//    public void setupNativeMopubAds(boolean isRemoveNative) {
-//
-//    }
-//
-//    @Override
-//    public void setupNativeAdmobAds(boolean isRemoveNative) {
-//
-//    }
-//
-//    @Override
-//    public void loadNativeAdFacebook() {
-//
-//    }
-//
-//    @Override
-//    public void loadNativeAdMopub() {
-//
-//    }
-//
-//    @Override
-//    public void loadNativeAdAdmob() {
-//
-//    }
-//
+
     @Override
     public void onGetConfigSuccess() {
         ServerConfig.getInstance().getListMoreApp();
@@ -267,7 +179,7 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
     public void userJustClickTryNowWithBonusData(JSONObject jobjData) {
 
     }
-//
+
     private void initAds(boolean isPremiumUser) {
         ResourceManager.getInstance().initResource(HomeActivity.this);
         AppDataManager.getInstance().init(HomeActivity.this, isPremiumUser);
@@ -291,57 +203,4 @@ public class HomeActivity extends AppCompatActivity implements INotificationsHel
 
     }
 
-//    public void showBanner() {
-//
-//        if (MediationAdHelper.getInstance() != null) {
-//            MediationAdHelper.getInstance().getBannerView(new IListenerBannerAds() {
-//                @Override
-//                public void onAdLoaded() {
-//                    addBanner();
-//                }
-//
-//                @Override
-//                public void onAdFailedToLoad() {
-//                }
-//
-//                @Override
-//                public void onAdClicked() {
-//                }
-//            });
-//           addBanner();
-//        }
-//    }
-//
-//
-//
-//    private void addBanner() {
-//        final View currentView = MediationAdHelper.getInstance().getAdView();
-//        if (currentView != null) {
-//            ViewGroup parent = (ViewGroup) currentView.getParent();
-//            if (parent != null) parent.removeAllViews();
-//            if (layoutBannerView != null) {
-//                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
-//                layoutBannerView.addView(currentView, lp);
-//            }
-//            if (bgrBanner != null) {
-//                bgrBanner.setVisibility(View.VISIBLE);
-//                //cập nhật giao diện: tùy biến theo ứng dụng của mình (dưới đây là 1 ví dụ)
-//                currentView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//                    @Override
-//                    public void onGlobalLayout() {
-//                        currentView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//                        int width = currentView.getWidth(); //width is ready
-//                        if (width > 0) {
-//                            if (lineTopBanner != null) {
-//                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) lineTopBanner.getLayoutParams();
-//                                layoutParams.width = width;
-//                                lineTopBanner.setLayoutParams(layoutParams);
-//                            }
-//                        }
-//                    }
-//                });
-//            }
-//        }
-//    }
 }
