@@ -45,6 +45,7 @@
                         android:src="@drawable/ic_back_white" />
 
                     <LinearLayout
+                        android:id="@+id/layout_detect"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3.5"
@@ -93,27 +94,15 @@
                         android:src="@drawable/ic_change_white" />
 
                     <LinearLayout
+                        android:id="@+id/layout_translate"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3.5"
                         android:orientation="horizontal">
 
-                        <com.catviet.android.translation.utils.customview.TextViewRegular
-                            android:id="@+id/tv_language_translate"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="7.5"
-                            android:gravity="center"
-                            android:text="Auto Detect"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="@dimen/ts_14"
-                            android:textStyle="bold" />
-
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-
                             android:layout_weight="3">
 
                             <ImageView
@@ -130,6 +119,20 @@
                                 android:visibility="gone" />
 
                         </RelativeLayout>
+
+                        <com.catviet.android.translation.utils.customview.TextViewRegular
+                            android:id="@+id/tv_language_translate"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="7.5"
+                            android:gravity="center"
+                            android:text="Auto Detect"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="@dimen/ts_14"
+                            android:textStyle="bold" />
+
+
                     </LinearLayout>
 
                 </LinearLayout>
@@ -224,7 +227,7 @@
             android:id="@+id/imageCapture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY" />
     </FrameLayout>
 
 

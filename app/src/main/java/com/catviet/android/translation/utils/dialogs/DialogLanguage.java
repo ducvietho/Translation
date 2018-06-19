@@ -7,8 +7,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.catviet.android.translation.R;
 import com.catviet.android.translation.data.model.Language;
@@ -37,6 +39,8 @@ public class DialogLanguage implements OnClickItem<Language> {
     RecyclerView mLanguageDetect;
     @BindView(R.id.rec_language_translate)
     RecyclerView mLanguageTranslate;
+    @BindView(R.id.img_cancel)
+    ImageView imgCancel;
     private Context mContext;
     private Dialog mDialog;
     List<Language> mLanguageList;
@@ -232,6 +236,12 @@ public class DialogLanguage implements OnClickItem<Language> {
 
         mLanguageDetect.smoothScrollToPosition(positionDetect);
         mLanguageTranslate.smoothScrollToPosition(positionTranslate);
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
         final Window window = mDialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -365,14 +375,20 @@ public class DialogLanguage implements OnClickItem<Language> {
             adapterDetect = new LanguageAdapter(mLanguageList, this, 0, positionDetect);
         }
         if (positionTranslate == -1) {
-            adapterTranslate = new LanguageAdapter(mLanguageListTranslate, this, 1, 0);
+            adapterTranslate = new LanguageAdapter(mLanguageList, this, 1, 0);
         } else {
-            adapterTranslate = new LanguageAdapter(mLanguageListTranslate, this, 1, positionTranslate);
+            adapterTranslate = new LanguageAdapter(mLanguageList, this, 1, positionTranslate);
         }
         mLanguageDetect.setAdapter(adapterDetect);
         mLanguageTranslate.setAdapter(adapterTranslate);
         mLanguageDetect.smoothScrollToPosition(positionDetect);
         mLanguageTranslate.smoothScrollToPosition(positionTranslate);
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
         final Window window = mDialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -476,6 +492,12 @@ public class DialogLanguage implements OnClickItem<Language> {
         mLanguageTranslate.setAdapter(adapterTranslate);
         mLanguageDetect.smoothScrollToPosition(positionDetect);
         mLanguageTranslate.smoothScrollToPosition(positionTranslate);
+        imgCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
         final Window window = mDialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
         mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

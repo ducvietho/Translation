@@ -27,15 +27,19 @@ public class TextToSpeechManager {
 
         @Override
         public void onInit(int status) {
+
             if (status == TextToSpeech.SUCCESS) {
                 //set Language
-                Locale aLocale = new Locale(mCode);
-                Locale.setDefault(aLocale);
-                result = mTTS.setLanguage(Locale.getDefault());
-                mTTS.speak(mText, TextToSpeech.QUEUE_FLUSH, null);
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e("error", "This Language is not supported");
+                if(!mTTS.isSpeaking()){
+                    Locale aLocale = new Locale(mCode);
+                    Locale.setDefault(aLocale);
+                    result = mTTS.setLanguage(Locale.getDefault());
+                    mTTS.speak(mText, TextToSpeech.QUEUE_FLUSH, null);
+                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        Log.e("error", "This Language is not supported");
+                    }
                 }
+
             } else {
                 Log.e("error", "Initialization Failed!");
             }

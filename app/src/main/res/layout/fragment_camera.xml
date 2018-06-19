@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_toolbar"
-            android:background="@android:color/white"
+            android:background="@color/blue_4"
             android:orientation="vertical">
 
             <LinearLayout
@@ -25,6 +25,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3.5"
+                    android:id="@id/layout_detect"
                     android:orientation="horizontal">
 
                     <com.catviet.android.translation.utils.customview.TextViewRegular
@@ -35,7 +36,7 @@
                         android:gravity="center"
                         android:text="English"
                         android:textAllCaps="true"
-                        android:textColor="@color/blue_4"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_14"
                         android:textStyle="bold" />
 
@@ -44,7 +45,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:src="@drawable/ic_down" />
+                        android:src="@drawable/ic_down_white" />
                 </LinearLayout>
 
                 <ImageView
@@ -53,14 +54,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_change" />
+                    android:src="@drawable/ic_change_white" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3.5"
+                    android:id="@+id/layout_translate"
                     android:orientation="horizontal">
-
+                    <ImageView
+                        android:id="@+id/img_choose_translate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:src="@drawable/ic_down_white" />
                     <com.catviet.android.translation.utils.customview.TextViewRegular
                         android:id="@+id/tv_language_translate"
                         android:layout_width="0dp"
@@ -69,24 +76,15 @@
                         android:gravity="center"
                         android:text="Vietnamese"
                         android:textAllCaps="true"
-                        android:textColor="@color/blue_4"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_14"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/img_choose_translate"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:src="@drawable/ic_down" />
+
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
 
         </LinearLayout>
         <android.support.v7.widget.RecyclerView

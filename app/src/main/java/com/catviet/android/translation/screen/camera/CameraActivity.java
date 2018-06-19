@@ -89,6 +89,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 //    ImageView imgDone;
     @BindView(R.id.bt_gallery)
     ImageView imgGallery;
+    @BindView(R.id.layout_detect)
+    LinearLayout mLayoutDetect;
+    @BindView(R.id.layout_translate)
+    LinearLayout mLayoutTranslate;
     Camera camera;
     SurfaceHolder mHolder;
     List<Language> mLanguageList;
@@ -118,6 +122,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         imgCloseDetect.setOnClickListener(this);
         imgCloseTranslate.setOnClickListener(this);
         mTakePhoto.setOnClickListener(this);
+        mLayoutDetect.setOnClickListener(this);
+        mLayoutTranslate.setOnClickListener(this);
         //imgDone.setOnClickListener(this);
         imgGallery.setOnClickListener(this);
         GridLayoutManager manager = new GridLayoutManager(CameraActivity.this, 1);
@@ -239,9 +245,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
              adapterDetect = new LanguageAdapterCamera(mLanguageList, this, 0, positionDetect);
         }
         if (positionTranslate==-1){
-            adapterTranslate = new LanguageAdapterCamera(mLanguageListTranslate, this, 1, 0);
+            adapterTranslate = new LanguageAdapterCamera(mLanguageList, this, 1, 0);
         }else {
-            adapterTranslate = new LanguageAdapterCamera(mLanguageListTranslate, this, 1, positionTranslate);
+            adapterTranslate = new LanguageAdapterCamera(mLanguageList, this, 1, positionTranslate);
         }
         mLanguageDetect.setAdapter(adapterDetect);
         mLanguageTranslate.setAdapter(adapterTranslate);
@@ -314,21 +320,36 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 overridePendingTransition(R.anim.no_change,R.anim.slide_down_info);
                 break;
-            case R.id.img_choose_detect:
-                imgCloseDetect.setVisibility(View.VISIBLE);
-                imgCloseTranslate.setVisibility(View.VISIBLE);
-                imgChooseDetect.setVisibility(View.GONE);
-                imgChooseTranslate.setVisibility(View.GONE);
-                mLayoutLanguage.setVisibility(View.VISIBLE);
+            case R.id.layout_detect:
+                if(imgCloseDetect.getVisibility()==View.GONE){
+                    imgCloseDetect.setVisibility(View.VISIBLE);
+                    imgCloseTranslate.setVisibility(View.VISIBLE);
+                    imgChooseDetect.setVisibility(View.GONE);
+                    imgChooseTranslate.setVisibility(View.GONE);
+                    mLayoutLanguage.setVisibility(View.VISIBLE);
+                }else {
+                    imgCloseDetect.setVisibility(View.GONE);
+                    imgCloseTranslate.setVisibility(View.GONE);
+                    imgChooseDetect.setVisibility(View.VISIBLE);
+                    imgChooseTranslate.setVisibility(View.VISIBLE);
+                    mLayoutLanguage.setVisibility(View.GONE);
+                }
 
                 break;
-            case R.id.img_choose_translate:
-                imgCloseDetect.setVisibility(View.VISIBLE);
-                imgCloseTranslate.setVisibility(View.VISIBLE);
-                imgChooseDetect.setVisibility(View.GONE);
-                imgChooseTranslate.setVisibility(View.GONE);
-                mLayoutLanguage.setVisibility(View.VISIBLE);
-
+            case R.id.layout_translate:
+                if(imgCloseTranslate.getVisibility()==View.GONE){
+                    imgCloseDetect.setVisibility(View.VISIBLE);
+                    imgCloseTranslate.setVisibility(View.VISIBLE);
+                    imgChooseDetect.setVisibility(View.GONE);
+                    imgChooseTranslate.setVisibility(View.GONE);
+                    mLayoutLanguage.setVisibility(View.VISIBLE);
+                }else {
+                    imgCloseDetect.setVisibility(View.GONE);
+                    imgCloseTranslate.setVisibility(View.GONE);
+                    imgChooseDetect.setVisibility(View.VISIBLE);
+                    imgChooseTranslate.setVisibility(View.VISIBLE);
+                    mLayoutLanguage.setVisibility(View.GONE);
+                }
                 break;
             case R.id.img_close_detect:
                 imgCloseDetect.setVisibility(View.GONE);

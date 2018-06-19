@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.catviet.android.translation.R;
@@ -58,6 +59,11 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
     ImageView imgSend;
     @BindView(R.id.rec_translate)
     RecyclerView mRecyclerTranslate;
+    @BindView(R.id.layout_detect)
+    LinearLayout mLayoutDetect;
+    @BindView(R.id.layout_translate)
+    LinearLayout mLayoutTranslate;
+
     TranslateDataHelper mDataHelper;
     List<Translate> mTranslates = new ArrayList<>();
     TranslateAdapter mTranslateAdapter;
@@ -78,8 +84,11 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
         imgChooseDetect.setOnClickListener(this);
         imgChooseTranslate.setOnClickListener(this);
         imgSend.setOnClickListener(this);
+        mLayoutDetect.setOnClickListener(this);
+        mLayoutTranslate.setOnClickListener(this);
         mTranslates = mDataHelper.getDataText();
         final LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
+        manager.setStackFromEnd(true);
         mRecyclerTranslate.setLayoutManager(manager);
         mTranslateAdapter = new TranslateAdapter(mTranslates, TextFragment.this);
         mRecyclerTranslate.setAdapter(mTranslateAdapter);
@@ -147,6 +156,12 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
                 break;
             case R.id.bt_send:
                 translate();
+                break;
+            case R.id.layout_detect:
+                new DialogLanguage(v.getContext(), languageDetect, languageTranslate,0).showDialogText();
+                break;
+            case R.id.layout_translate:
+                new DialogLanguage(v.getContext(), languageDetect, languageTranslate,0).showDialogText();
                 break;
             default:
                 break;

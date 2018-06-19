@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -27,7 +25,6 @@ import com.catviet.android.translation.utils.AppUtil;
 import com.example.vdconfigppclinkadsandroid.data.ServerConfig;
 import com.example.vdconfigppclinkadsandroid.notifications.Notification;
 import com.example.vdconfigppclinkadsandroid.notifications.NotificationsHelper;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +44,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
     LinearLayout layoutShare;
     @BindView(R.id.layout_upgrade)
     LinearLayout layoutUpgrade;
-    @BindView(R.id.layout_restore)
-    LinearLayout layoutRestore;
     @BindView(R.id.rec_more_app)
     RecyclerView mRecyclerView;
     View v;
@@ -68,7 +63,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         layoutSupport.setOnClickListener(this);
         layoutShare.setOnClickListener(this);
         layoutUpgrade.setOnClickListener(this);
-        layoutRestore.setOnClickListener(this);
+
         setupMoreApp();
 
         return v;
@@ -103,8 +98,6 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
             case R.id.layout_upgrade:
                 setUpPurchase();
                 break;
-            case R.id.layout_restore:
-                break;
             default:
                 break;
         }
@@ -127,9 +120,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
             @Override
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
-                    Toast.makeText(v.getContext(),"Purchase",Toast.LENGTH_LONG).show();
                     BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                            .setSku(com.catviet.android.translation.utils.Constants.PRODUCT_ID)
+                            .setSku(v.getContext().getPackageName())
                             .setType(BillingClient.SkuType.INAPP) // SkuType.SUB for subscription
                             .build();
                     mBillingClient.launchBillingFlow((Activity)v.getContext(),flowParams);

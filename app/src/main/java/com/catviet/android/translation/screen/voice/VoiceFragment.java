@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.catviet.android.translation.R;
@@ -76,6 +77,14 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
     ImageView imgChooseDetect;
     @BindView(R.id.img_choose_translate)
     ImageView imgChooseTranslate;
+    @BindView(R.id.layout_detect)
+    LinearLayout mLayoutDetect;
+    @BindView(R.id.layout_translate)
+    LinearLayout mLayoutTranslate;
+    @BindView(R.id.img_detect_blur)
+    CircleImageView imgDetectBlur;
+    @BindView(R.id.img_translate_blur)
+    CircleImageView imgTranslateBlur;
     List<Translate> mTranslates = new ArrayList<>();
     TranslateAdapter mAdapter;
     TranslateAPI mTranslateAPI;
@@ -109,6 +118,7 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
         }
 
     };
+
     public VoiceFragment() {
         // Required empty public constructor
     }
@@ -121,6 +131,7 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
         ButterKnife.bind(this, v);
         mDataHelper = new TranslateDataHelper(v.getContext());
         LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
+        manager.setStackFromEnd(true);
         mRecyclerView.setLayoutManager(manager);
         mTranslates = mDataHelper.getDataVoice();
         mAdapter = new TranslateAdapter(mTranslates, this);
@@ -131,14 +142,15 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
         imgChange.setOnClickListener(this);
         imgChooseDetect.setOnClickListener(this);
         imgChooseTranslate.setOnClickListener(this);
+        mLayoutDetect.setOnClickListener(this);
+        mLayoutTranslate.setOnClickListener(this);
         SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(Constants.PRE_DETECT_VOICE, MODE_PRIVATE);
         SharedPreferences sharedPreferencesTranslate = v.getContext().getSharedPreferences(Constants.PRE_TRANSLATE_VOICE, MODE_PRIVATE);
         String extra = sharedPreferences.getString(Constants.EXTRA_DETECT_VOICE, "");
         String extraTranslate = sharedPreferencesTranslate.getString(Constants.EXTRA_TRANSLATE_VOICE, "");
         if (extra.equals("")) {
             SharedPreferences.Editor editorDetect = sharedPreferences.edit();
-            editorDetect.putString(Constants.EXTRA_DETECT_VOICE, new Gson().toJson(new Language("English", "en-US",
-                    R.drawable.ic_uk)));
+            editorDetect.putString(Constants.EXTRA_DETECT_VOICE, new Gson().toJson(new Language("English", "en-US", R.drawable.ic_uk)));
             editorDetect.putInt(Constants.EXTRA_DETECT_POSITION, 1);
             editorDetect.commit();
         } else {
@@ -148,8 +160,7 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
         }
         if (extraTranslate.equals("")) {
             SharedPreferences.Editor editorTranslate = sharedPreferencesTranslate.edit();
-            editorTranslate.putString(Constants.EXTRA_TRANSLATE_VOICE, new Gson().toJson(new Language("Vietnamese", "vi-VN",
-                    R.drawable.ic_vietnam)));
+            editorTranslate.putString(Constants.EXTRA_TRANSLATE_VOICE, new Gson().toJson(new Language("Vietnamese", "vi-VN", R.drawable.ic_vietnam)));
             editorTranslate.putInt(Constants.EXTRA_TRANSLATE_POSITION, 0);
             editorTranslate.commit();
         } else {
@@ -223,18 +234,35 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
             }
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        speechAPI.destroy();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_voice_detect:
-                if(imgVOiceDetect.getVisibility()==View.GONE){
+                if (imgVOiceDetect.getVisibility() == View.GONE) {
                     promptSpeechInput(0);
+                } else {
+                    imgDetectBlur.setVisibility(View.GONE);
+                    imgVOiceDetect.setVisibility(View.GONE);
+                    speechAPI.finishRecognizing();
+                    speechAPI.destroy();
                 }
 
                 break;
             case R.id.bt_voice_translate:
-                if(imgVoiceTranslate.getVisibility()==View.GONE){
+                if (imgVoiceTranslate.getVisibility() == View.GONE) {
                     promptSpeechInput(1);
+                } else {
+                    imgTranslateBlur.setVisibility(View.GONE);
+                    imgVoiceTranslate.setVisibility(View.GONE);
+                    speechAPI.finishRecognizing();
+                    speechAPI.destroy();
                 }
 
                 break;
@@ -266,6 +294,12 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
             case R.id.img_choose_translate:
                 new DialogLanguage(v.getContext(), languageDetect, languageTranslate, imgCountryDetect, imgCountryTranslate, 2).showDialogVoice();
                 break;
+            case R.id.layout_detect:
+                new DialogLanguage(v.getContext(), languageDetect, languageTranslate, imgCountryDetect, imgCountryTranslate, 2).showDialogVoice();
+                break;
+            case R.id.layout_translate:
+                new DialogLanguage(v.getContext(), languageDetect, languageTranslate, imgCountryDetect, imgCountryTranslate, 2).showDialogVoice();
+                break;
         }
     }
 
@@ -277,26 +311,25 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
 
     private void promptSpeechInput(int type) {
 
-        SharedPreferences sharedPreferencesDetect = v.getContext().getSharedPreferences(Constants.PRE_DETECT_VOICE,
-                MODE_PRIVATE);
+        SharedPreferences sharedPreferencesDetect = v.getContext().getSharedPreferences(Constants.PRE_DETECT_VOICE, MODE_PRIVATE);
         String detect = sharedPreferencesDetect.getString(Constants.EXTRA_DETECT_VOICE, "");
         final Language languageDetect = new Gson().fromJson(detect, Language.class);
-        SharedPreferences sharedPreferencesTranslate = v.getContext().getSharedPreferences(Constants
-                        .PRE_TRANSLATE_VOICE,
-                MODE_PRIVATE);
+        SharedPreferences sharedPreferencesTranslate = v.getContext().getSharedPreferences(Constants.PRE_TRANSLATE_VOICE, MODE_PRIVATE);
         String translate = sharedPreferencesTranslate.getString(Constants.EXTRA_TRANSLATE_VOICE, "");
         final Language languageTranslate = new Gson().fromJson(translate, Language.class);
         switch (type) {
             case 0:
                 if (isGrantedPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                     imgVOiceDetect.setVisibility(View.VISIBLE);
+                    imgDetectBlur.setVisibility(View.VISIBLE);
                     final int postision = mTranslates.size();
-                    Translate translate1 = new Translate("",languageDetect.getImage(),languageDetect
-                            .getCode(), languageDetect.getName(),2);
-                    mTranslates.add(postision,translate1);
-                    mAdapter.notifyDataSetChanged();
+                    if(imgVoiceTranslate.getVisibility()==View.VISIBLE){
+                        speechAPI.finishRecognizing();
+                        imgTranslateBlur.setVisibility(View.GONE);
+                        imgVoiceTranslate.setVisibility(View.GONE);
+                    }
                     mRecyclerView.smoothScrollToPosition(mTranslates.size());
-                    speechAPI = new SpeechAPI(v.getContext(),languageDetect.getCode());
+                    speechAPI = new SpeechAPI(v.getContext(), languageDetect.getCode());
                     startVoiceRecorder();
                     mSpeechServiceListener = new SpeechAPI.Listener() {
                         @Override
@@ -305,34 +338,37 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
                                 mVoiceRecorder.dismiss();
                             }
 
-                            ((Activity)v.getContext()).runOnUiThread(new Runnable() {
+                            ((Activity) v.getContext()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
 
                                     if (isFinal) {
                                         imgVOiceDetect.setVisibility(View.GONE);
-                                        Translate translate = new Translate(text,languageDetect.getImage(),languageDetect
-                                                .getCode(), languageDetect.getName(),0);
-                                        mTranslates.set(postision,translate);
+                                        imgDetectBlur.setVisibility(View.GONE);
+                                        Translate translate = new Translate(text, languageDetect.getImage(), languageDetect.getCode(), languageDetect.getName(), 0);
+                                        mTranslates.set(postision, translate);
                                         mAdapter.notifyDataSetChanged();
                                         mRecyclerView.smoothScrollToPosition(mTranslates.size());
-
-                                        mTranslateAPI = new TranslateAPI(v.getContext(),languageDetect.getCode(),
-                                                languageTranslate.getCode(),mTranslates,mAdapter,mRecyclerView,2);
-
+                                        mTranslateAPI = new TranslateAPI(v.getContext(), languageDetect.getCode(), languageTranslate.getCode(), mTranslates, mAdapter, mRecyclerView, 2);
                                         mTranslateAPI.execute(text);
-                                        mDataHelper.insert(translate,2);
+                                        mDataHelper.insert(translate, 2);
                                         speechAPI.removeListener(mSpeechServiceListener);
                                         stopVoiceRecorder();
 
-                                    }else {
 
-                                        Translate translate = new Translate(text,languageDetect.getImage(),languageDetect
-                                                .getCode(), languageDetect.getName(),2);
-                                        mTranslates.set(postision,translate);
-                                        mAdapter.notifyDataSetChanged();
-                                        mRecyclerView.smoothScrollToPosition(mTranslates.size());
+                                    } else {
+                                        if(postision==mTranslates.size()){
+                                            Translate translate1 = new Translate("", languageDetect.getImage(), languageDetect.getCode(), languageDetect.getName(), 2);
+                                            mTranslates.add(postision, translate1);
+                                            mAdapter.notifyDataSetChanged();
+                                        }else {
+                                            Translate translate = new Translate(text, languageDetect.getImage(), languageDetect.getCode(), languageDetect.getName(), 2);
+                                            mTranslates.set(postision, translate);
+                                            mAdapter.notifyDataSetChanged();
+                                            mRecyclerView.smoothScrollToPosition(mTranslates.size());
+                                        }
+
                                     }
                                 }
                             });
@@ -349,13 +385,15 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
             case 1:
                 if (isGrantedPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
                     imgVoiceTranslate.setVisibility(View.VISIBLE);
+                    imgTranslateBlur.setVisibility(View.VISIBLE);
                     final int postision = mTranslates.size();
-                    Translate translate1 = new Translate("",languageTranslate.getImage(),
-                            languageTranslate.getCode(), languageTranslate.getName(),2);
-                    mTranslates.add(postision,translate1);
-                    mAdapter.notifyDataSetChanged();
+                    if(imgVOiceDetect.getVisibility()==View.VISIBLE){
+                        speechAPI.finishRecognizing();
+                        imgVOiceDetect.setVisibility(View.GONE);
+                        imgDetectBlur.setVisibility(View.GONE);
+                    }
                     mRecyclerView.smoothScrollToPosition(mTranslates.size());
-                    speechAPI = new SpeechAPI(v.getContext(),languageTranslate.getCode());
+                    speechAPI = new SpeechAPI(v.getContext(), languageTranslate.getCode());
                     startVoiceRecorder();
                     mSpeechServiceListener = new SpeechAPI.Listener() {
                         @Override
@@ -364,31 +402,36 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
                                 mVoiceRecorder.dismiss();
                             }
 
-                            ((Activity)v.getContext()).runOnUiThread(new Runnable() {
+                            ((Activity) v.getContext()).runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
 
                                     if (isFinal) {
+                                        imgTranslateBlur.setVisibility(View.GONE);
                                         imgVoiceTranslate.setVisibility(View.GONE);
-                                        Translate translate = new Translate(text,languageTranslate.getImage(),languageTranslate
-                                                .getCode(), languageTranslate.getName(),0);
-                                        mTranslates.set(postision,translate);
+                                        Translate translate = new Translate(text, languageTranslate.getImage(), languageTranslate.getCode(), languageTranslate.getName(), 0);
+                                        mTranslates.set(postision, translate);
                                         mAdapter.notifyDataSetChanged();
                                         mRecyclerView.smoothScrollToPosition(mTranslates.size());
 
-                                        mTranslateAPI = new TranslateAPI(v.getContext(),languageTranslate.getCode(),
-                                                languageDetect.getCode(),mTranslates,mAdapter,mRecyclerView,2);
+                                        mTranslateAPI = new TranslateAPI(v.getContext(), languageTranslate.getCode(), languageDetect.getCode(), mTranslates, mAdapter, mRecyclerView, 2);
                                         mTranslateAPI.execute(text);
-                                        mDataHelper.insert(translate,2);
+                                        mDataHelper.insert(translate, 2);
                                         speechAPI.removeListener(mSpeechServiceListener);
                                         stopVoiceRecorder();
-                                    }else{
-                                        Translate translate = new Translate(text,languageTranslate.getImage(),
-                                                languageTranslate.getCode(), languageTranslate.getName(),2);
-                                        mTranslates.set(postision,translate);
-                                       mAdapter.notifyDataSetChanged();
-                                        mRecyclerView.smoothScrollToPosition(mTranslates.size());
+                                    } else {
+                                        if(postision==mTranslates.size()){
+                                            Translate translate1 = new Translate("", languageTranslate.getImage(), languageTranslate.getCode(), languageTranslate.getName(), 2);
+                                            mTranslates.add(postision, translate1);
+                                            mAdapter.notifyDataSetChanged();
+                                        }else {
+                                            Translate translate = new Translate(text, languageTranslate.getImage(), languageTranslate.getCode(), languageTranslate.getName(), 2);
+                                            mTranslates.set(postision, translate);
+                                            mAdapter.notifyDataSetChanged();
+                                            mRecyclerView.smoothScrollToPosition(mTranslates.size());
+                                        }
+
                                     }
                                 }
                             });
@@ -415,6 +458,7 @@ public class VoiceFragment extends Fragment implements OnClickSpeak<Translate>, 
     private void makeRequest(String permission) {
         ActivityCompat.requestPermissions((Activity) v.getContext(), new String[]{permission}, RECORD_REQUEST_CODE);
     }
+
     private void startVoiceRecorder() {
         if (mVoiceRecorder != null) {
             mVoiceRecorder.stop();

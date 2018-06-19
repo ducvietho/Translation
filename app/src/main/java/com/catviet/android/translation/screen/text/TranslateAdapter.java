@@ -85,8 +85,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolderDetect extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
         ImageView imgCountry;
-        @BindView(R.id.tv_language)
-        TextViewRegular tvLanguage;
         @BindView(R.id.tvText)
         TextViewLight tvText;
         @BindView(R.id.bt_speak)
@@ -98,7 +96,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(final Translate translate) {
             Picasso.with(itemView.getContext()).load(translate.getImage()).into(imgCountry);
-            tvLanguage.setText(translate.getLanguage());
             tvText.setText(translate.getText());
             btSpeak.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -113,8 +110,7 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolderTranslate extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
         ImageView imgCountry;
-        @BindView(R.id.tv_language)
-        TextViewRegular tvLanguage;
+
         @BindView(R.id.tvText)
         TextViewLight tvText;
         @BindView(R.id.bt_speak)
@@ -126,7 +122,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(final Translate translate) {
             Picasso.with(itemView.getContext()).load(translate.getImage()).into(imgCountry);
-            tvLanguage.setText(translate.getLanguage());
             tvText.setText(translate.getText());
             btSpeak.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,8 +134,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     class ViewHolderDetecting extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
         ImageView imgCountry;
-        @BindView(R.id.tv_language)
-        TextViewRegular tvLanguage;
         @BindView(R.id.tvText)
         TextViewLight tvText;
         @BindView(R.id.img_detecting)
@@ -153,7 +146,6 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         public void bind(final Translate translate) {
             imgCountry.setImageResource(translate.getImage());
-            tvLanguage.setText(translate.getLanguage());
             tvText.setText(translate.getText());
 //            Ion.with(mImageView)
 //                    .animateGif(AnimateGifMode.ANIMATE)

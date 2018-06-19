@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
     <LinearLayout
@@ -13,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_toolbar"
-            android:background="@android:color/white"
+            android:background="@color/blue_4"
             android:orientation="vertical">
 
             <LinearLayout
@@ -25,7 +26,8 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3.5"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:id="@+id/layout_detect">
 
                     <com.catviet.android.translation.utils.customview.TextViewRegular
                         android:id="@+id/tv_language_detect"
@@ -35,7 +37,7 @@
                         android:gravity="center"
                         android:text="English"
                         android:textAllCaps="true"
-                        android:textColor="@color/blue_4"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_14"
                         android:textStyle="bold" />
 
@@ -44,7 +46,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
-                        android:src="@drawable/ic_down" />
+                        android:src="@drawable/ic_down_white" />
                 </LinearLayout>
 
                 <ImageView
@@ -53,14 +55,20 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_change" />
+                    android:src="@drawable/ic_change_white" />
 
                 <LinearLayout
                     android:layout_width="0dp"
+                    android:id="@+id/layout_translate"
                     android:layout_height="match_parent"
                     android:layout_weight="3.5"
                     android:orientation="horizontal">
-
+                    <ImageView
+                        android:id="@+id/img_choose_translate"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:src="@drawable/ic_down_white" />
                     <com.catviet.android.translation.utils.customview.TextViewRegular
                         android:id="@+id/tv_language_translate"
                         android:layout_width="0dp"
@@ -69,24 +77,14 @@
                         android:gravity="center"
                         android:text="Vietnamese"
                         android:textAllCaps="true"
-                        android:textColor="@color/blue_4"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/ts_14"
                         android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/img_choose_translate"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
-                        android:src="@drawable/ic_down" />
+
                 </LinearLayout>
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/darker_gray" />
 
         </LinearLayout>
         <android.support.v7.widget.RecyclerView
@@ -107,20 +105,29 @@
             android:gravity="center"
             android:id="@+id/bt_voice_detect">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:id="@+id/img_country_detect"
-                android:src="@drawable/ic_uk"/>
+                android:src="@drawable/ic_uk"
+                 />
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:src="@android:color/black"
                 android:alpha="0.3"
+                android:visibility="gone"
+                android:id="@+id/img_detect_blur"
                 />
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_voice_detect"
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:src="@drawable/ic_voice_white"
                 android:visibility="gone"/>
         </RelativeLayout>
@@ -131,19 +138,27 @@
             android:gravity="center"
             android:id="@+id/bt_voice_translate">
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:id="@+id/img_country_translate"
                 android:src="@drawable/ic_vietnam"/>
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:src="@android:color/black"
                 android:alpha="0.3"
+                android:visibility="gone"
+                android:id="@+id/img_translate_blur"
                 />
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/dip_50"
-                android:layout_height="@dimen/dip_50"
+                android:layout_width="@dimen/dip_55"
+                android:layout_height="@dimen/dip_55"
+                app:civ_border_width="@dimen/dip_5"
+                app:civ_border_color="@android:color/white"
                 android:id="@+id/img_voice_translate"
                 android:visibility="gone"
                 android:src="@drawable/ic_voice_white"/>

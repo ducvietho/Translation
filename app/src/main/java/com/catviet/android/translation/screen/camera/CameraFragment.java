@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.catviet.android.translation.R;
 import com.catviet.android.translation.data.model.Language;
@@ -54,6 +55,10 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
     RecyclerView mRecyclerTranslate;
     @BindView(R.id.bt_camera)
     FloatingActionButton btCamera;
+    @BindView(R.id.layout_detect)
+    LinearLayout mLayoutDetect;
+    @BindView(R.id.layout_translate)
+    LinearLayout mLayoutTranslate;
     View v;
     List<Translate> mList = new ArrayList<>();
      TranslateAdapter mAdapter;
@@ -80,10 +85,13 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
         imgChange.setOnClickListener(this);
         imgChooseDetect.setOnClickListener(this);
         imgChooseTranslate.setOnClickListener(this);
+        mLayoutDetect.setOnClickListener(this);
+        mLayoutTranslate.setOnClickListener(this);
         mDataHelper = new TranslateDataHelper(v.getContext());
         mList = mDataHelper.getDataCamera();
         mAdapter = new TranslateAdapter(mList,CameraFragment.this);
         LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
+        manager.setStackFromEnd(true);
         mRecyclerTranslate.setLayoutManager(manager);
         mRecyclerTranslate.setAdapter(mAdapter);
         mRecyclerTranslate.smoothScrollToPosition(mList.size());
@@ -173,6 +181,12 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
             case R.id.bt_camera:
                 startActivity(new CameraActivity().getIntent(v.getContext()));
                 getActivity().overridePendingTransition(R.anim.slide_up_info,R.anim.no_change);
+                break;
+            case R.id.layout_detect:
+                new DialogLanguage(v.getContext(),languageDetect,languageTranslate,1).showDialogCamera();
+                break;
+            case R.id.layout_translate:
+                new DialogLanguage(v.getContext(),languageDetect,languageTranslate,1).showDialogCamera();
                 break;
             default:
                 break;
