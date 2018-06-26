@@ -9,7 +9,17 @@
     android:background="@color/grey_1"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.catviet.android.translation.screen.home.HomeActivity">
-    <FrameLayout
+    <com.catviet.android.translation.utils.customview.TextViewLight
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_20"
+        android:id="@+id/tv_internet_connection"
+        android:visibility="gone"
+        android:background="@android:color/holo_red_light"
+        android:textColor="@android:color/white"
+        android:text="No Internet Connection"
+        android:gravity="center"/>
+    <android.support.v4.view.ViewPager
+        android:layout_below="@+id/tv_internet_connection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/frame_layout"
@@ -57,14 +67,13 @@
                 android:layout_below="@+id/id_line_top_banner"
                 android:background="@android:color/white"></RelativeLayout>
         </RelativeLayout>
-        <com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx
+        <android.support.design.widget.TabLayout
             android:id="@+id/bnve"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dip_50"
-
             android:background="@android:color/white"
-            app:itemIconTint="@color/bnv_tab_item_selector"
-            app:menu="@menu/bottom_menu" />
+            ads:tabIndicatorColor="@android:color/transparent"
+            />
     </LinearLayout>
 
 </RelativeLayout>

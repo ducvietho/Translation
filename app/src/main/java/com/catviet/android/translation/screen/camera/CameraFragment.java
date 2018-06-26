@@ -1,7 +1,10 @@
 package com.catviet.android.translation.screen.camera;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -18,10 +21,12 @@ import com.catviet.android.translation.data.model.Language;
 import com.catviet.android.translation.data.model.Translate;
 import com.catviet.android.translation.data.resource.local.TranslateDataHelper;
 import com.catviet.android.translation.screen.text.TranslateAdapter;
+import com.catviet.android.translation.service.InternetService;
 import com.catviet.android.translation.utils.Constants;
 import com.catviet.android.translation.utils.OnClickSpeak;
 import com.catviet.android.translation.utils.TextToSpeechManager;
 import com.catviet.android.translation.utils.TranslateAPI;
+import com.catviet.android.translation.utils.customview.TextViewLight;
 import com.catviet.android.translation.utils.customview.TextViewRegular;
 import com.catviet.android.translation.utils.dialogs.DialogLanguage;
 import com.google.gson.Gson;
@@ -60,6 +65,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
     @BindView(R.id.layout_translate)
     LinearLayout mLayoutTranslate;
     View v;
+
     List<Translate> mList = new ArrayList<>();
      TranslateAdapter mAdapter;
     private TranslateDataHelper mDataHelper;
@@ -81,6 +87,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
         // Inflate the layout for this fragment
         v =  inflater.inflate(R.layout.fragment_camera, container, false);
         ButterKnife.bind(this,v);
+
         btCamera.setOnClickListener(this);
         imgChange.setOnClickListener(this);
         imgChooseDetect.setOnClickListener(this);
@@ -89,7 +96,7 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
         mLayoutTranslate.setOnClickListener(this);
         mDataHelper = new TranslateDataHelper(v.getContext());
         mList = mDataHelper.getDataCamera();
-        mAdapter = new TranslateAdapter(mList,CameraFragment.this);
+        mAdapter = new TranslateAdapter(mList,CameraFragment.this,3);
         LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
         manager.setStackFromEnd(true);
         mRecyclerTranslate.setLayoutManager(manager);
@@ -129,14 +136,49 @@ public class CameraFragment extends Fragment implements View.OnClickListener, On
                     .PRE_DETECT_CAMERA, MODE_PRIVATE);
             SharedPreferences preferencesTranslateSend = v.getContext().getSharedPreferences(Constants
                             .PRE_TRANSLATE_CAMERA, MODE_PRIVATE);
+            SharedPreferences preferencesLan = v.getContext().getSharedPreferences(Constants.PRE_TOTRANSLATE_CAMERA,
+                    MODE_PRIVATE);
+            String lang = preferencesLan.getString(Constants.EXTRA_TOTRANSLATE,null);
             String detectSend = preferencesDetectSend.getString(Constants.EXTRA_DETECT_CAMERA, null);
             String translateSend = preferencesTranslateSend.getString(Constants.EXTRA_TRANSLATE_CAMERA, null);
             Language lanDetectSend = new Gson().fromJson(detectSend, Language.class);
             Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
-            Translate translate = new Translate(string, lanDetectSend.getImage(), lanDetectSend.getCode(), lanDetectSend
-                    .getName(), 0);
-            new TranslateDataHelper(v.getContext()).insert(translate, 1);
-            mList.add(translate);
+            String info = lanDetectSend.getName()+" to "+lanTranslateSend.getName();
+            if(lang==null){
+                Translate translate = new Translate("",0,"","",3,lanDetectSend.getName()+" to "+lanTranslateSend
+                        .getName());
+                mList.add(translate);
+                mDataHelper.insert(translate,1);
+                Translate translate1 = new Translate(string, lanDetectSend.getImage(), lanDetectSend.getCode(),
+                        lanDetectSend
+                        .getName(), 0,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                mDataHelper.insert(translate1, 1);
+                mList.add(translate1);
+                SharedPreferences.Editor editor  = preferencesLan.edit();
+                editor.putString(Constants.EXTRA_TOTRANSLATE,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                editor.commit();
+
+            }else {
+                if(info.equals(lang)){
+                    Translate translate = new Translate(string, lanDetectSend.getImage(), lanDetectSend.getCode(), lanDetectSend
+                            .getName(), 0,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    mDataHelper.insert(translate, 1);
+                    mList.add(translate);
+                }else {
+                    Translate translate = new Translate("",0,"","",3,lanDetectSend.getName()+" to "+lanTranslateSend
+                            .getName());
+                    mList.add(translate);
+                    mDataHelper.insert(translate,1);
+                    Translate translate1 = new Translate(string, lanDetectSend.getImage(), lanDetectSend.getCode(),
+                            lanDetectSend
+                                    .getName(), 0,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    mDataHelper.insert(translate1, 1);
+                    mList.add(translate1);
+                    SharedPreferences.Editor editor  = preferencesLan.edit();
+                    editor.putString(Constants.EXTRA_TOTRANSLATE,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    editor.commit();
+                }
+            }
             mAdapter.notifyDataSetChanged();
             mRecyclerTranslate.smoothScrollToPosition(mList.size());
             TranslateAPI translateAPI = new TranslateAPI(v.getContext(), lanDetectSend.getCode(),

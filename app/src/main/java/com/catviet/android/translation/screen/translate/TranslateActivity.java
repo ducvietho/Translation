@@ -62,11 +62,12 @@ public class TranslateActivity extends AppCompatActivity implements OnClickSpeak
         String translateSend = preferencesTranslateSend.getString(Constants.EXTRA_TRANSLATE_CAMERA, null);
         Language lanDetectSend = new Gson().fromJson(detectSend, Language.class);
         Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
-        Translate translate = new Translate(result, lanDetectSend.getImage(), lanDetectSend.getCode(), lanDetectSend.getName(), 0);
+        Translate translate = new Translate(result, lanDetectSend.getImage(), lanDetectSend.getCode(),
+                lanDetectSend.getName(), 0,"");
         mTranslates.add(translate);
         GridLayoutManager manager = new GridLayoutManager(TranslateActivity.this, 1);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new TranslateAdapter(mTranslates, this);
+        mAdapter = new TranslateAdapter(mTranslates, this,3);
         mRecyclerView.setAdapter(mAdapter);
         TranslateAPI translateAPI = new TranslateAPI(TranslateActivity.this, lanDetectSend.getCode(),
                 lanTranslateSend.getCode(), mTranslates, mAdapter,mRecyclerView, 1);

@@ -3,6 +3,7 @@ package com.catviet.android.translation.utils.dialogs;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -42,12 +43,13 @@ public class DialogScanning {
     public DialogScanning(Context context) {
         mContext = context;
         mDialog = new Dialog(context);
+
     }
 
-    public void showDialog(Bitmap bitmap, final String detect) {
+    public void showDialog(Bitmap bitmap) {
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_scanning);
-        mDialog.setCancelable(false);
+
         ButterKnife.bind(this, mDialog);
         final Window window = mDialog.getWindow();
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -58,7 +60,6 @@ public class DialogScanning {
     private void detectText(final Bitmap bitmap) {
         Vision.Builder visionBuilder = new Vision.Builder(new NetHttpTransport(), new AndroidJsonFactory(), null);
         visionBuilder.setVisionRequestInitializer(new VisionRequestInitializer(Constants.GOOGLE_VISION_API_KEY));
-
         vision = visionBuilder.build();
         AsyncTask.execute(new Runnable() {
             @Override
@@ -87,9 +88,12 @@ public class DialogScanning {
                     ((Activity) mContext).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            if(mDialog.isShowing()){
+                                mContext.startActivity(new EditActivity().getIntent(mContext, text.getText()));
+                                ((Activity) mContext).finish();
+                            }
 
-                            mContext.startActivity(new EditActivity().getIntent(mContext, text.getText()));
-                            ((Activity) mContext).finish();
+
                         }
                     });
 
@@ -98,5 +102,15 @@ public class DialogScanning {
                 }
             }
         });
+        mDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                ((Activity)mContext).finish();
+            }
+        });
+    }
+    public void cancelDialog(){
+        mDialog.dismiss();
+
     }
 }

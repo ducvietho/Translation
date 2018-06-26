@@ -76,7 +76,7 @@ public class VoiceActivity extends AppCompatActivity implements OnClickSpeak<Tra
         mTranslates = mDataHelper.getDataVoice();
         GridLayoutManager manager = new GridLayoutManager(VoiceActivity.this, 1);
         mRecyclerView.setLayoutManager(manager);
-        mAdapter = new TranslateAdapter(mTranslates, this);
+        mAdapter = new TranslateAdapter(mTranslates, this,1);
         mRecyclerView.setAdapter(mAdapter);
         mVoiceDetect.setOnClickListener(this);
         mVoiceTranslate.setOnClickListener(this);
@@ -84,9 +84,10 @@ public class VoiceActivity extends AppCompatActivity implements OnClickSpeak<Tra
         imgChange.setOnClickListener(this);
         imgChooseDetect.setOnClickListener(this);
         imgChooseTranslate.setOnClickListener(this);
-        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PRE_DETECT, Context.MODE_PRIVATE);
-        SharedPreferences sharedPreferencesTranslate = getSharedPreferences(Constants.PRE_TRANSLATE, Context.MODE_PRIVATE);
-        String extra = sharedPreferences.getString(Constants.EXTRA_DETECT, "");
+        SharedPreferences sharedPreferences = getSharedPreferences(Constants.PRE_DETECT_VOICE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferencesTranslate = getSharedPreferences(Constants.PRE_TRANSLATE_VOICE, Context
+                .MODE_PRIVATE);
+        String extra = sharedPreferences.getString(Constants.EXTRA_DETECT_VOICE, "");
         String extraTranslate = sharedPreferencesTranslate.getString(Constants.EXTRA_TRANSLATE, "");
         if (extra.equals("")) {
             SharedPreferences.Editor editorDetect = sharedPreferences.edit();
@@ -125,7 +126,7 @@ public class VoiceActivity extends AppCompatActivity implements OnClickSpeak<Tra
                     String translateSend = preferencesTranslateSend.getString(Constants.EXTRA_TRANSLATE, null);
                     Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
                     Translate translate = new Translate(result.get(0),lanDetectSend.getImage(),lanDetectSend.getCode(),
-                            lanDetectSend.getName(),0);
+                            lanDetectSend.getName(),0,"");
                     mTranslates.add(translate);
                     mAdapter.notifyDataSetChanged();
                     mDataHelper.insert(translate,2);
@@ -147,7 +148,7 @@ public class VoiceActivity extends AppCompatActivity implements OnClickSpeak<Tra
                     Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
                     ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     Translate translate = new Translate(result.get(0),lanTranslateSend.getImage(),
-                            lanTranslateSend.getCode(), lanTranslateSend.getName(),1);
+                            lanTranslateSend.getCode(), lanTranslateSend.getName(),1,"");
                     mTranslates.add(translate);
                     mAdapter.notifyDataSetChanged();
                     mDataHelper.insert(translate,2);

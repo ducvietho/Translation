@@ -3,12 +3,14 @@ package com.catviet.android.translation.screen.text;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,13 @@ import com.catviet.android.translation.R;
 import com.catviet.android.translation.data.model.Language;
 import com.catviet.android.translation.data.model.Translate;
 import com.catviet.android.translation.data.resource.local.TranslateDataHelper;
+import com.catviet.android.translation.service.InternetService;
 import com.catviet.android.translation.utils.Constants;
 import com.catviet.android.translation.utils.OnClickSpeak;
 import com.catviet.android.translation.utils.TextToSpeechManager;
 import com.catviet.android.translation.utils.TranslateAPI;
 import com.catviet.android.translation.utils.customview.EditTextLight;
+import com.catviet.android.translation.utils.customview.TextViewLight;
 import com.catviet.android.translation.utils.customview.TextViewRegular;
 import com.catviet.android.translation.utils.dialogs.DialogLanguage;
 import com.google.gson.Gson;
@@ -87,10 +91,11 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
         mLayoutDetect.setOnClickListener(this);
         mLayoutTranslate.setOnClickListener(this);
         mTranslates = mDataHelper.getDataText();
+
         final LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
         manager.setStackFromEnd(true);
         mRecyclerTranslate.setLayoutManager(manager);
-        mTranslateAdapter = new TranslateAdapter(mTranslates, TextFragment.this);
+        mTranslateAdapter = new TranslateAdapter(mTranslates, TextFragment.this,2);
         mRecyclerTranslate.setAdapter(mTranslateAdapter);
         mRecyclerTranslate.smoothScrollToPosition(mTranslates.size());
         SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(Constants.PRE_DETECT, MODE_PRIVATE);
@@ -177,7 +182,12 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
         InputMethodManager imm = (InputMethodManager)((Activity)v.getContext()).getSystemService(Context
                 .INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        int pos = mTranslates.size();
+
         if (!edType.getText().toString().matches("")) {
+            SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(Constants.PRE_TOTRANSLATE,
+                    MODE_PRIVATE);
+            String lang = sharedPreferences.getString(Constants.EXTRA_TOTRANSLATE,null);
             SharedPreferences preferencesDetectSend = v.getContext().getSharedPreferences(Constants.PRE_DETECT,
                     MODE_PRIVATE);
             SharedPreferences preferencesTranslateSend = v.getContext().getSharedPreferences(Constants.PRE_TRANSLATE,
@@ -186,9 +196,50 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
             String translateSend = preferencesTranslateSend.getString(Constants.EXTRA_TRANSLATE, null);
             Language lanDetectSend = new Gson().fromJson(detectSend, Language.class);
             Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
-            Translate translate = new Translate(edType.getText().toString(), lanDetectSend.getImage(), lanDetectSend.getCode(), lanDetectSend.getName(), 0);
-            mTranslates.add(translate);
-            mDataHelper.insert(translate,0);
+            String infor = lanDetectSend.getName()+" to "+lanTranslateSend.getName();
+
+            if(lang==null){
+                Log.i("To translate","no language");
+                SharedPreferences sharedPreferences1 = v.getContext().getSharedPreferences(Constants.PRE_TOTRANSLATE,
+                        MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences1.edit();
+                editor.putString(Constants.EXTRA_TOTRANSLATE,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                editor.commit();
+                Translate translate = new Translate("",0,"","",3,lanDetectSend.getName()+" to "+lanTranslateSend
+                        .getName());
+                mTranslates.add(translate);
+                mDataHelper.insert(translate,0);
+                Translate translate1 = new Translate(edType.getText().toString(), lanDetectSend.getImage(),
+                        lanDetectSend.getCode(), lanDetectSend.getName(), 0,
+                        lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                mTranslates.add(translate1);
+                mDataHelper.insert(translate1,0);
+            }else {
+                Log.i("To translate",lang);
+                if(lang.equals(infor)){
+                    Translate translate = new Translate(edType.getText().toString(), lanDetectSend.getImage(),
+                            lanDetectSend.getCode(), lanDetectSend.getName(), 0,
+                            lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    mTranslates.add(translate);
+                    mDataHelper.insert(translate,0);
+                }else {
+                    SharedPreferences sharedPreferencesText = v.getContext().getSharedPreferences(Constants.PRE_TOTRANSLATE,
+                            MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferencesText.edit();
+                    editor.putString(Constants.EXTRA_TOTRANSLATE,lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    editor.commit();
+                    Translate translate = new Translate("",0,"","",3,lanDetectSend.getName()+" to "+lanTranslateSend
+                            .getName());
+                    mTranslates.add(translate);
+                    mDataHelper.insert(translate,0);
+                    Translate translate1 = new Translate(edType.getText().toString(), lanDetectSend.getImage(),
+                            lanDetectSend.getCode(), lanDetectSend.getName(), 0,
+                            lanDetectSend.getName()+" to "+lanTranslateSend.getName());
+                    mTranslates.add(translate1);
+                    mDataHelper.insert(translate1,0);
+                }
+            }
+
             mTranslateAdapter.notifyDataSetChanged();
             mRecyclerTranslate.smoothScrollToPosition(mTranslates.size());
             TranslateAPI translateAPI = new TranslateAPI(v.getContext(), lanDetectSend.getCode(), lanTranslateSend.getCode(),

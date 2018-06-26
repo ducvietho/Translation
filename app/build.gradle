@@ -10,11 +10,11 @@ android {
     defaultConfig {
         applicationId "com.catviet.android.translation"
         minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 21
+        versionCode 5
+        versionName "1.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        multiDexEnabled  true
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -66,33 +66,12 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
-    compile 'com.jakewharton:butterknife:8.7.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-    compile 'com.android.billingclient:billing:1.1'
-    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'de.hdodenhof:circleimageview:2.2.0'
     // compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.google.code.gson:gson:2.7'
     // compile 'com.squareup.retrofit2:converter-gson:2.3.0'
-    compile 'org.jsoup:jsoup:1.11.2'
-    compile 'com.github.darsh2:MultipleImageSelect:3474549'
-    compile 'com.microsoft.projectoxford:vision:1.0.374'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'com.koushikdutta.ion:ion:2.+'
-    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
-    compile 'com.werdpressed.partisan:rundo:1.0.5'
-    compile 'com.android.support:support-v4:26.+'
     // gRPC
     compile "io.grpc:grpc-okhttp:$grpcVersion"
     compile "io.grpc:grpc-protobuf-lite:$grpcVersion"
     compile "io.grpc:grpc-stub:$grpcVersion"
-    compile 'javax.annotation:javax.annotation-api:1.2'
-    protobuf 'com.google.protobuf:protobuf-java:3.3.1'
-    compile 'com.android.support:multidex:1.0.1'
     compile('com.google.api-client:google-api-client-android:1.22.0') {
         exclude group: 'com.google.guava', module: 'guava-jdk5'
         exclude module: 'httpclient'
@@ -108,9 +87,29 @@ dependencies {
     compile('com.google.auth:google-auth-library-oauth2-http:0.7.0') {
         exclude module: 'httpclient'
     }
-    compile 'com.android.support:multidex:1.0.0'
-    compile 'id.zelory:compressor:2.1.0'
     compile project(':vdconfigppclinkadsandroid')
-    compile 'com.google.android.gms:play-services-ads:15.0.1'
 
+    compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.jakewharton:butterknife:8.7.0'
+    compile 'com.android.billingclient:billing:1.1'
+    compile 'com.android.support:cardview-v7:26.0.0-alpha1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'de.hdodenhof:circleimageview:2.2.0'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'org.jsoup:jsoup:1.11.2'
+    compile 'com.github.darsh2:MultipleImageSelect:3474549'
+    compile 'com.microsoft.projectoxford:vision:1.0.374'
+    compile 'com.android.support:design:26.0.0-alpha1'
+    compile 'com.koushikdutta.ion:ion:2.+'
+    compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
+    compile 'com.werdpressed.partisan:rundo:1.0.5'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'javax.annotation:javax.annotation-api:1.2'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'id.zelory:compressor:2.1.0'
+    compile 'com.google.android.gms:play-services-ads:15.0.1'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+    protobuf 'com.google.protobuf:protobuf-java:3.3.1'
 }

@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -16,38 +18,49 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:name=".utils.AppApplication"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".utils.AppApplication">
-        <activity android:name=".screen.home.HomeActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|screenSize|orientation">
+        android:theme="@style/AppTheme">
+        <activity
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:name=".screen.home.HomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".screen.camera.CameraActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|screenSize|orientation">
+        <activity
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:name=".screen.camera.CameraActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:name=".screen.voice.VoiceActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:name=".screen.edit.EditActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:configChanges="keyboardHidden|screenSize|orientation"
+            android:name=".screen.translate.TranslateActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
-        </activity>
-        <activity android:name=".screen.voice.VoiceActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|screenSize|orientation">
+        <receiver android:name=".service.InternetService">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
 
-        </activity>
-        <activity android:name=".screen.edit.EditActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|screenSize|orientation">
-        </activity>
-        <activity android:name=".screen.translate.TranslateActivity"
-                  android:screenOrientation="portrait"
-                  android:configChanges="keyboardHidden|screenSize|orientation">
-        </activity>
-
+        <receiver
+            android:enabled="true"
+            android:name=".service.AlarmOnReceiver"/>
     </application>
 
 </manifest>

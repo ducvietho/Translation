@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -21,16 +22,22 @@ import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.catviet.android.translation.R;
+import com.catviet.android.translation.screen.home.HomeActivity;
 import com.catviet.android.translation.utils.AppUtil;
+import com.catviet.android.translation.utils.Constants;
+import com.catviet.android.translation.utils.customview.TextViewRegular;
 import com.example.vdconfigppclinkadsandroid.data.ServerConfig;
 import com.example.vdconfigppclinkadsandroid.notifications.Notification;
 import com.example.vdconfigppclinkadsandroid.notifications.NotificationsHelper;
+import com.google.android.gms.ads.AdRequest;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,9 +50,11 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
     @BindView(R.id.layout_share)
     LinearLayout layoutShare;
     @BindView(R.id.layout_upgrade)
-    LinearLayout layoutUpgrade;
+    CardView layoutUpgrade;
     @BindView(R.id.rec_more_app)
     RecyclerView mRecyclerView;
+    @BindView(R.id.tv_upgrage)
+    TextViewRegular tvUpgrade;
     View v;
     private BillingClient mBillingClient;
 
@@ -63,9 +72,15 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         layoutSupport.setOnClickListener(this);
         layoutShare.setOnClickListener(this);
         layoutUpgrade.setOnClickListener(this);
-
         setupMoreApp();
+        SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(Constants.PRE_PREMIUM_USER,
+                MODE_PRIVATE);
+        boolean isPremium = sharedPreferences.getBoolean(Constants.EXTRA_IS_PREMIUM_USER,false);
 
+        if(isPremium){
+            tvUpgrade.setVisibility(View.GONE);
+            layoutUpgrade.setVisibility(View.GONE);
+        }
         return v;
     }
     @Override
@@ -107,10 +122,14 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         if (responseCode == BillingClient.BillingResponse.OK
                 && purchases != null) {
             SharedPreferences.Editor editor = v.getContext().getSharedPreferences(com.catviet.android.translation
-                    .utils.Constants.PRE_PREMIUM_USER, Context.MODE_PRIVATE).edit();
+                    .utils.Constants.PRE_PREMIUM_USER, MODE_PRIVATE).edit();
             editor.putBoolean(com.catviet.android.translation.utils.Constants.EXTRA_IS_PREMIUM_USER,true);
             editor.commit();
-
+            HomeActivity.mAdView.setVisibility(View.GONE);
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) HomeActivity.mFrameLayout
+                    .getLayoutParams();
+            params.setMargins(0,0,0,(int) getResources().getDimension(R.dimen.dip_50));
+            HomeActivity.mFrameLayout.setLayoutParams(params);
         }
     }
     private void setUpPurchase(){
@@ -121,7 +140,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {
                 if (billingResponseCode == BillingClient.BillingResponse.OK) {
                     BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                            .setSku(v.getContext().getPackageName())
+                            .setSku("com.catviet.android.translation.removeads")
                             .setType(BillingClient.SkuType.INAPP) // SkuType.SUB for subscription
                             .build();
                     mBillingClient.launchBillingFlow((Activity)v.getContext(),flowParams);

@@ -40,6 +40,10 @@ public class Constants {
             "Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
             "Mozilla/5.0 (Linux; U; Android 2.3.3; en-us; HTC_DesireS_S510e Build/GRI40) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile"};
     public static final String INTENT_EXTRA_LIMIT = "limit";
-    public static final String APP_ADSMOB_ID ="ca-app-pub-7927828976820333~3391359025";
+    public static final String APP_ADSMOB_ID ="ca-app-pub-2722483100021409~4147302840";
     public static final String ADSMOB_UNIT_ID ="ca-app-pub-2722483100021409/6358634841";
+    public static final String PRE_TOTRANSLATE = "translateText";
+    public static final String PRE_TOTRANSLATE_VOICE = "translateVoice";
+    public static final String PRE_TOTRANSLATE_CAMERA = "translateCamera";
+    public static final String EXTRA_TOTRANSLATE = "language";
 }

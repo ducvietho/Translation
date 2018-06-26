@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TranslateApplication</string>
+    <string name="app_name">Translation App</string>
     <string name="title">Translation</string>
     <string name="text">Text</string>
     <string name="camera">Camera</string>
@@ -13,11 +13,12 @@
     <string name="hint">Type text or phrase...</string>
     <string name="scanning">Scanning text ...</string>
     <string name="speech_prompt">Say something…</string>
+    <string name="feedback_app">Hi PPCLINK,</string>
     <string name="speech_not_supported">Sorry! Your device doesn\'t support speech input</string>
-
+    <string name="internet">Please enable 3G or Internet \nto use application</string>
     <string name="setting">Setting</string>
     <string name="upgrade_premium">upgrade to premium</string>
-    <string name="upgrade">Upgrade</string>
+    <string name="upgrade">Remove Ads</string>
     <string name="ads">Ads Banner</string>
     <string name="feedback">Feedback</string>
     <string name="rate_app">Rate App</string>

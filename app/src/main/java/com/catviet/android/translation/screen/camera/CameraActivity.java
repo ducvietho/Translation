@@ -100,6 +100,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     String pathFileOut;
     LanguageAdapterCamera adapterDetect;
     LanguageAdapterCamera adapterTranslate;
+    DialogScanning mDialogScanning;
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, CameraActivity.class);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -112,6 +113,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
+        mDialogScanning = new DialogScanning(this);
         mHolder = mCameraView.getHolder();
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         mHolder.addCallback(this);
@@ -283,7 +285,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 SharedPreferences prefeDetect = getSharedPreferences(Constants.PRE_DETECT_CAMERA, MODE_PRIVATE);
                 String detectLan = prefeDetect.getString(Constants.EXTRA_DETECT_CAMERA, null);
                 Language languaDetect = new Gson().fromJson(detectLan, Language.class);
-                new DialogScanning(CameraActivity.this).showDialog(bitmap,languaDetect.getCode());
+                mDialogScanning.showDialog(bitmap);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -310,6 +312,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mDialogScanning.cancelDialog();
+        finish();
         overridePendingTransition(R.anim.no_change,R.anim.slide_down_info);
     }
 
@@ -470,15 +474,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             fos.write(bytes);
             fos.close();
             Bitmap bitmap = new Compressor(this).compressToBitmap(new File(pathFileOut));
+            Bitmap finalBitmap = rotateImage(bitmap,90);
             layoutViewImage.setVisibility(View.VISIBLE);
             mViewLanguage.setVisibility(View.GONE);
             mViewTakeImg.setVisibility(View.GONE);
             SharedPreferences prefeDetect = getSharedPreferences(Constants.PRE_DETECT_CAMERA, MODE_PRIVATE);
             String detectLan = prefeDetect.getString(Constants.EXTRA_DETECT_CAMERA, null);
             Language languaDetect = new Gson().fromJson(detectLan, Language.class);
-            new DialogScanning(CameraActivity.this).showDialog(bitmap,languaDetect.getCode());
-            //imgDone.setVisibility(View.VISIBLE);
-            //imageView.setImageBitmap(bitmap);
+            mDialogScanning.showDialog(finalBitmap);
+            imageView.setImageBitmap(finalBitmap);
         } catch (IOException e) {
             e.printStackTrace();
         }

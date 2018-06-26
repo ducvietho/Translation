@@ -10,16 +10,25 @@ public class Translate {
     private String mCode;
     private String mLanguage;
     private int mType;
-
+    private String mToTranslate;
     public Translate() {
     }
 
-    public Translate(String text, int image, String code, String language, int type) {
+    public Translate(String text, int image, String code, String language, int type, String toTranslate) {
         mText = text;
         mImage = image;
         mCode = code;
         mLanguage = language;
         mType = type;
+        mToTranslate = toTranslate;
+    }
+
+    public String getToTranslate() {
+        return mToTranslate;
+    }
+
+    public void setToTranslate(String toTranslate) {
+        mToTranslate = toTranslate;
     }
 
     public int getType() {

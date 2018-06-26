@@ -1,16 +1,25 @@
 package com.catviet.android.translation.screen.text;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.catviet.android.translation.R;
+import com.catviet.android.translation.data.model.Language;
 import com.catviet.android.translation.data.model.Translate;
+import com.catviet.android.translation.screen.edit.EditActivity;
+import com.catviet.android.translation.utils.Constants;
 import com.catviet.android.translation.utils.OnClickSpeak;
 import com.catviet.android.translation.utils.customview.TextViewLight;
 import com.catviet.android.translation.utils.customview.TextViewRegular;
+import com.google.gson.Gson;
 import com.koushikdutta.ion.Ion;
 import com.koushikdutta.ion.builder.AnimateGifMode;
 import com.squareup.picasso.Picasso;
@@ -20,6 +29,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by ducvietho on 26/04/2018.
  */
@@ -28,10 +39,12 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List<Translate> mTranslates;
     private OnClickSpeak<Translate> mOnClickSpeak;
+    private int mType;
 
-    public TranslateAdapter(List<Translate> translates, OnClickSpeak<Translate> onClickSpeak) {
+    public TranslateAdapter(List<Translate> translates, OnClickSpeak<Translate> onClickSpeak,int type) {
         mTranslates = translates;
         mOnClickSpeak = onClickSpeak;
+        mType = type;
     }
 
     @Override
@@ -46,6 +59,9 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case 2:
                 View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detecting,parent,false);
                 return new ViewHolderDetecting(view1);
+            case 3:
+                View view2 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_to_translate,parent,false);
+                return new ViewHolderLanguage(view2);
             default:
                 return null;
         }
@@ -53,6 +69,7 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         switch (holder.getItemViewType()){
             case 0:
                 ViewHolderDetect viewHolderDetect = (ViewHolderDetect) holder;
@@ -65,6 +82,10 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case 2:
                 ViewHolderDetecting holderDetecting = (ViewHolderDetecting)holder;
                 holderDetecting.bind(mTranslates.get(position));
+                break;
+            case 3:
+                ViewHolderLanguage holderLanguage = (ViewHolderLanguage)holder;
+                holderLanguage.bind(mTranslates.get(position));
                 break;
             default:
                 break;
@@ -81,7 +102,17 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         return mTranslates.get(position).getType();
     }
-
+    class ViewHolderLanguage extends RecyclerView.ViewHolder{
+        @BindView(R.id.tv_infor)
+        TextViewLight tvInfor;
+        public ViewHolderLanguage(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
+        }
+        public void bind(Translate translate){
+            tvInfor.setText(translate.getToTranslate());
+        }
+    }
     class ViewHolderDetect extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
         ImageView imgCountry;
@@ -103,6 +134,18 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     mOnClickSpeak.speakText(translate);
                 }
             });
+            tvText.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ClipboardManager clipboard = (ClipboardManager) itemView.getContext().getSystemService(Context
+                            .CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Copied text", translate.getText());
+                    Toast.makeText(itemView.getContext(), "Copied text", Toast.LENGTH_LONG).show();
+                    clipboard.setPrimaryClip(clip);
+                    return true;
+                }
+            });
+
 
         }
     }
@@ -127,6 +170,17 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View view) {
                     mOnClickSpeak.speakText(translate);
+                }
+            });
+            tvText.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ClipboardManager clipboard = (ClipboardManager) itemView.getContext().getSystemService(Context
+                            .CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Copied text", translate.getText());
+                    Toast.makeText(itemView.getContext(), "Copied text", Toast.LENGTH_LONG).show();
+                    clipboard.setPrimaryClip(clip);
+                    return true;
                 }
             });
         }

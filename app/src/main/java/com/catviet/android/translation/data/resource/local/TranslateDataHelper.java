@@ -26,6 +26,7 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
     public static final String IMAGE_COLUMN = "image";
     public static final String TYPE_COLUMN = "type";
     public static final String TYPE_TRANSLATE_COLUMN = "type_translate";
+    public static final String TOTRANSLATE_COLUMN = "toTranslate";
     private static final  String SQL_CREATE_TRANSLATE = " CREATE TABLE "
             +TABLE_NAME
             +"("
@@ -42,6 +43,8 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
             +TYPE_TRANSLATE_COLUMN
             +" INTEGER,"
             + CODE_COLUMN
+            +" TEXT,"
+            +TOTRANSLATE_COLUMN
             +" TEXT"
             +")";
     private static final String SQL_DROP_LANGUAGES =
@@ -69,6 +72,7 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
         contentValues.put(IMAGE_COLUMN,translate.getImage());
         contentValues.put(TYPE_COLUMN,translate.getType());
         contentValues.put(TYPE_TRANSLATE_COLUMN,type);
+        contentValues.put(TOTRANSLATE_COLUMN,translate.getToTranslate());
         database.insert(TABLE_NAME,null,contentValues);
         database.close();
     }
@@ -112,6 +116,7 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
         translate.setLanguage(cursor.getString(cursor.getColumnIndex(NAME_COLUMN)));
         translate.setText(cursor.getString(cursor.getColumnIndex(TEXT_COLUMN)));
         translate.setType(cursor.getInt(cursor.getColumnIndex(TYPE_COLUMN)));
+        translate.setToTranslate(cursor.getString(cursor.getColumnIndex(TOTRANSLATE_COLUMN)));
        return translate;
     }
 }

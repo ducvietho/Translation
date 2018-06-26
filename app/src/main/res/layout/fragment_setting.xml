@@ -12,15 +12,12 @@
         <com.catviet.android.translation.utils.customview.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="@dimen/dip_50"
-            android:background="@android:color/white"
-            android:textColor="@android:color/black"
+            android:background="@color/blue_4"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/ts_18"
             android:text="@string/setting"
             android:gravity="center"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:background="@color/tela_8"/>
+
         <com.catviet.android.translation.utils.customview.TextViewRegular
             android:layout_width="match_parent"
             android:layout_height="@dimen/dip_50"
@@ -28,6 +25,7 @@
             android:textAllCaps="true"
             android:textColor="@android:color/black"
             android:text="@string/upgrade"
+            android:id="@+id/tv_upgrage"
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/dip_15"/>
         <android.support.v7.widget.CardView
@@ -35,7 +33,8 @@
             android:layout_height="@dimen/dip_50"
             android:layout_marginLeft="@dimen/dip_15"
             android:layout_marginRight="@dimen/dip_15"
-            app:cardCornerRadius="4dp">
+            app:cardCornerRadius="4dp"
+            android:id="@+id/layout_upgrade">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -45,7 +44,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:id="@+id/layout_upgrade">
+                   >
                     <ImageView
                         android:layout_width="@dimen/dip_40"
                         android:layout_height="@dimen/dip_40"

@@ -75,6 +75,7 @@ public class DialogLanguage implements OnClickItem<Language> {
     public void onClick(Language language, int type, int position) {
         switch (mType) {
             case 0:
+
                 switch (type) {
                     case 0:
                         SharedPreferences.Editor editorDetect = mContext.getSharedPreferences(Constants.PRE_DETECT, MODE_PRIVATE).edit();

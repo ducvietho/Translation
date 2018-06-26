@@ -107,9 +107,11 @@ public class TranslateAPI extends AsyncTask<String, String, Void> {
                 String translateSend = preferencesTranslateSend.getString(Constants.EXTRA_TRANSLATE, null);
                 Language lanTranslateSend = new Gson().fromJson(translateSend, Language.class);
 
-                Translate translate = new Translate(values[0], lanTranslateSend.getImage(), lanTranslateSend.getCode(), lanTranslateSend.getName(), 1);
-                mList.add(translate);
-                mAdapter.notifyDataSetChanged();
+                Translate translate = new Translate(values[0], lanTranslateSend.getImage(), lanTranslateSend.getCode
+                        (), lanTranslateSend.getName(), 1,"");
+                int pos = mList.size();
+                mList.add(pos,translate);
+                mAdapter.notifyItemChanged(pos,mList);
                 new TranslateDataHelper(mContext).insert(translate, 0);
                 mRecyclerView.smoothScrollToPosition(mList.size());
                 break;
@@ -117,9 +119,11 @@ public class TranslateAPI extends AsyncTask<String, String, Void> {
                 SharedPreferences preferencesTranslate = mContext.getSharedPreferences(Constants.PRE_TRANSLATE_CAMERA, MODE_PRIVATE);
                 String translateSendCamera = preferencesTranslate.getString(Constants.EXTRA_TRANSLATE_CAMERA, null);
                 Language lanTranslate = new Gson().fromJson(translateSendCamera, Language.class);
-                Translate translateCamera = new Translate(values[0], lanTranslate.getImage(), lanTranslate.getCode(), lanTranslate.getName(), 1);
-                mList.add(translateCamera);
-                mAdapter.notifyDataSetChanged();
+                Translate translateCamera = new Translate(values[0], lanTranslate.getImage(), lanTranslate.getCode(),
+                        lanTranslate.getName(), 1,"");
+                int posi = mList.size();
+                mList.add(posi,translateCamera);
+                mAdapter.notifyItemChanged(posi,mList);
                 new TranslateDataHelper(mContext).insert(translateCamera, 1);
                 mRecyclerView.smoothScrollToPosition(mList.size());
                 break;
@@ -133,17 +137,23 @@ public class TranslateAPI extends AsyncTask<String, String, Void> {
                 String detectVoice = preferencesDetectVoice.getString(Constants.EXTRA_DETECT_VOICE, null);
                 Language lanDetectVoice = new Gson().fromJson(detectVoice, Language.class);
                 if (mDetectCode.equals(lanDetectVoice.getCode())) {
-                    Translate translateVoice = new Translate(values[0], lanTranslateVoice.getImage(), lanTranslateVoice.getCode(), lanTranslateVoice.getName(), 1);
-                    mList.add(translateVoice);
-                    mAdapter.notifyDataSetChanged();
+                    Translate translateVoice = new Translate(values[0], lanTranslateVoice.getImage(),
+                            lanTranslateVoice.getCode(), lanTranslateVoice.getName(), 1,"");
+                    int position = mList.size();
+                    mList.add(position,translateVoice);
+                    mAdapter.notifyItemChanged(mList.size(),mList);
                     new TranslateDataHelper(mContext).insert(translateVoice, 2);
+                    mRecyclerView.smoothScrollToPosition(mList.size());
                 } else {
-                    Translate translateVoice = new Translate(values[0], lanDetectVoice.getImage(), lanDetectVoice.getCode(), lanDetectVoice.getName(), 1);
-                    mList.add(translateVoice);
-                    mAdapter.notifyDataSetChanged();
+                    Translate translateVoice = new Translate(values[0], lanDetectVoice.getImage(), lanDetectVoice
+                            .getCode(), lanDetectVoice.getName(), 1,"");
+                    int position = mList.size();
+                    mList.add(position,translateVoice);
+                    mAdapter.notifyItemChanged(mList.size(),mList);
                     new TranslateDataHelper(mContext).insert(translateVoice, 2);
+                    mRecyclerView.smoothScrollToPosition(mList.size());
                 }
-                mRecyclerView.smoothScrollToPosition(mList.size());
+
 
             default:
                 break;
