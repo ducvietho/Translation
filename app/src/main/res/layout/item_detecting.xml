@@ -6,11 +6,13 @@
               android:orientation="horizontal"
               xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dip_30"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/dip_25"
+        android:layout_height="@dimen/dip_25"
         android:layout_marginTop="@dimen/dip_5"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
+        app:civ_border_color="@android:color/white"
+        app:civ_border_width="@dimen/dip_2"
         android:id="@+id/img_country"
          />
 

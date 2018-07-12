@@ -58,7 +58,7 @@ public class DialogLanguage implements OnClickItem<Language> {
         this.languageDetect = languageDetect;
         this.languageTranslate = languageTranslate;
         mType = type;
-        mDialog = new Dialog(context);
+
     }
 
     public DialogLanguage(Context context, TextViewRegular languageDetect, TextViewRegular languageTranslate, CircleImageView imgDetect, CircleImageView imgTranslate, int type) {
@@ -68,7 +68,7 @@ public class DialogLanguage implements OnClickItem<Language> {
         mType = type;
         mImgDetect = imgDetect;
         mImgTranslate = imgTranslate;
-        mDialog = new Dialog(context);
+
     }
 
     @Override
@@ -140,6 +140,7 @@ public class DialogLanguage implements OnClickItem<Language> {
     }
 
     public void showDialogText() {
+        mDialog = new Dialog(mContext);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_language);
         ButterKnife.bind(this, mDialog);
@@ -250,6 +251,7 @@ public class DialogLanguage implements OnClickItem<Language> {
     }
 
     public void showDialogCamera() {
+        mDialog = new Dialog(mContext);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_language);
         ButterKnife.bind(this, mDialog);
@@ -397,6 +399,7 @@ public class DialogLanguage implements OnClickItem<Language> {
     }
 
     public void showDialogVoice() {
+        mDialog = new Dialog(mContext);
         mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         mDialog.setContentView(R.layout.dialog_language);
         ButterKnife.bind(this, mDialog);

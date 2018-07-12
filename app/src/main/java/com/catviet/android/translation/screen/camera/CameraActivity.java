@@ -1,6 +1,7 @@
 package com.catviet.android.translation.screen.camera;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.darsh.multipleimageselect.activities.AlbumSelectActivity;
 import com.darsh.multipleimageselect.models.Image;
@@ -272,6 +275,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        makeRequest(Manifest.permission.CAMERA);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_GALLERY) {
             mViewLanguage.setVisibility(View.GONE);
@@ -294,15 +303,39 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_CODE_CAMERA:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-
+                if(grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    try {
+                        camera = Camera.open();
+                        changeOrientation();
+                    } catch (RuntimeException e) {
+                        Log.e("", "init_camera: " + e);
                         return;
                     }
+                    Camera.Parameters param;
+
+                    param = camera.getParameters();
+                    param.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                    camera.setParameters(param);
+                    try {
+                        camera.setPreviewDisplay(mHolder);
+                        camera.startPreview();
+                        //camera.takePicture(shutter, raw, jpeg)
+                    } catch (Exception e) {
+                        Log.e(TAG, "init_camera: " + e);
+                        return;
+                    }
+
+                }else {
 
                 }
 
@@ -498,5 +531,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             camera.setDisplayOrientation(0);
         else camera.setDisplayOrientation(90);
     }
+    private int isGrantedPermission(String permission) {
+        return ContextCompat.checkSelfPermission(this, permission);
+    }
 
+    private void makeRequest(String permission) {
+        ActivityCompat.requestPermissions(this, new String[]{permission}, REQUEST_CODE_CAMERA);
+    }
 }

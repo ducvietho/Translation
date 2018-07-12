@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.catviet.android.translation.R;
@@ -17,6 +19,7 @@ import com.catviet.android.translation.data.model.Translate;
 import com.catviet.android.translation.screen.edit.EditActivity;
 import com.catviet.android.translation.utils.Constants;
 import com.catviet.android.translation.utils.OnClickSpeak;
+import com.catviet.android.translation.utils.TextToSpeechManager;
 import com.catviet.android.translation.utils.customview.TextViewLight;
 import com.catviet.android.translation.utils.customview.TextViewRegular;
 import com.google.gson.Gson;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -53,9 +57,7 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case 0:
                 View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detect, parent, false);
                 return new ViewHolderDetect(v);
-            case 1:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_translate, parent, false);
-                return new ViewHolderTranslate(view);
+
             case 2:
                 View view1 = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_detecting,parent,false);
                 return new ViewHolderDetecting(view1);
@@ -75,10 +77,7 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ViewHolderDetect viewHolderDetect = (ViewHolderDetect) holder;
                 viewHolderDetect.bind(mTranslates.get(position));
                 break;
-            case 1:
-                ViewHolderTranslate viewHolderTranslate = (ViewHolderTranslate)holder;
-                viewHolderTranslate.bind(mTranslates.get(position));
-                break;
+
             case 2:
                 ViewHolderDetecting holderDetecting = (ViewHolderDetecting)holder;
                 holderDetecting.bind(mTranslates.get(position));
@@ -115,11 +114,21 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     class ViewHolderDetect extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
-        ImageView imgCountry;
+        CircleImageView imgCountry;
         @BindView(R.id.tvText)
         TextViewLight tvText;
         @BindView(R.id.bt_speak)
         ImageView btSpeak;
+        @BindView(R.id.img_country_translate)
+        CircleImageView imgCountryTranslate;
+        @BindView(R.id.tvTextTranslate)
+        TextViewLight tvTextTranslate;
+        @BindView(R.id.bt_speak_translate)
+        ImageView btSpeakTranslate;
+        @BindView(R.id.pro_loading)
+        ProgressBar mLoading;
+        @BindView(R.id.layout_translate)
+        LinearLayout mLayoutTranslate;
         public ViewHolderDetect(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -145,7 +154,33 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     return true;
                 }
             });
+            if(translate.getCodeTranslate()==null){
+                mLoading.setVisibility(View.VISIBLE);
+                mLayoutTranslate.setVisibility(View.GONE);
 
+            }else {
+                mLoading.setVisibility(View.GONE);
+                mLayoutTranslate.setVisibility(View.VISIBLE);
+                Picasso.with(itemView.getContext()).load(translate.getImageTranslate()).into(imgCountryTranslate);
+                tvTextTranslate.setText(translate.getTextTranslate());
+                btSpeakTranslate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new TextToSpeechManager().init(itemView.getContext(),translate.getCodeTranslate(),translate.getTextTranslate());
+                    }
+                });
+                tvTextTranslate.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        ClipboardManager clipboard = (ClipboardManager) itemView.getContext().getSystemService(Context
+                                .CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("Copied text", translate.getTextTranslate());
+                        Toast.makeText(itemView.getContext(), "Copied text", Toast.LENGTH_LONG).show();
+                        clipboard.setPrimaryClip(clip);
+                        return true;
+                    }
+                });
+            }
 
         }
     }
@@ -187,7 +222,7 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
     class ViewHolderDetecting extends RecyclerView.ViewHolder {
         @BindView(R.id.img_country)
-        ImageView imgCountry;
+        CircleImageView imgCountry;
         @BindView(R.id.tvText)
         TextViewLight tvText;
         @BindView(R.id.img_detecting)
@@ -207,4 +242,5 @@ public class TranslateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
     }
+
 }

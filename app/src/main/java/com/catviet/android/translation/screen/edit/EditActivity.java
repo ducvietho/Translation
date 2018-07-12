@@ -21,7 +21,7 @@ import com.catviet.android.translation.data.model.Language;
 import com.catviet.android.translation.data.model.Translate;
 import com.catviet.android.translation.data.resource.local.TranslateDataHelper;
 import com.catviet.android.translation.screen.home.HomeActivity;
-import com.catviet.android.translation.screen.translate.TranslateActivity;
+
 import com.catviet.android.translation.utils.Constants;
 import com.catviet.android.translation.utils.TranslateAPI;
 import com.catviet.android.translation.utils.customview.EditTextLight;

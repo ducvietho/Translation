@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/layout_empty">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/text_icon"/>
+        <com.catviet.android.translation.utils.customview.TextViewLight
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_item_text"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/ts_14"
+            android:layout_marginTop="@dimen/dip_10"/>
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/height_toolbar"
@@ -87,7 +110,15 @@
 
 
     </LinearLayout>
-
+    <com.catviet.android.translation.utils.customview.TextViewLight
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dip_20"
+        android:id="@+id/tv_internet_connection"
+        android:visibility="gone"
+        android:background="@android:color/darker_gray"
+        android:textColor="@android:color/white"
+        android:text="No Internet Connection"
+        android:gravity="center"/>
     <ImageView
         android:id="@+id/img_language"
         android:layout_width="wrap_content"
@@ -139,5 +170,5 @@
                 android:src="@drawable/ic_send" />
         </LinearLayout>
     </RelativeLayout>
-
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

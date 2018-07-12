@@ -42,21 +42,15 @@ public class SpeechAPI {
     private static final String PREF_ACCESS_TOKEN_VALUE = "access_token_value";
     private static final String PREF_ACCESS_TOKEN_EXPIRATION_TIME = "access_token_expiration_time";
 
-    /**
-     * We reuse an access token if its expiration time is longer than this.
-     */
+
     private static final int ACCESS_TOKEN_EXPIRATION_TOLERANCE = 30 * 60 * 1000; // thirty minutes
 
-    /**
-     * We refresh the current access token before it expires.
-     */
     private static final int ACCESS_TOKEN_FETCH_MARGIN = 60 * 1000; // one minute
 
     private static final String HOSTNAME = "speech.googleapis.com";
     private static final int PORT = 443;
     private static Handler mHandler;
 
-    //private final SpeechBinder mBinder = new SpeechBinder();
     private final ArrayList<Listener> mListeners = new ArrayList<>();
 
     private final StreamObserver<StreamingRecognizeResponse> mResponseObserver = new StreamObserver<StreamingRecognizeResponse>() {
@@ -142,11 +136,7 @@ public class SpeechAPI {
         mListeners.remove(listener);
     }
 
-    /**
-     * Starts recognizing speech audio.
-     *
-     * @param sampleRate The sample rate of the audio.
-     */
+
     public void startRecognizing(int sampleRate) {
         if (mApi == null) {
             Log.w(TAG, "API not ready. Ignoring the request.");
@@ -171,13 +161,7 @@ public class SpeechAPI {
         mRequestObserver.onNext(streamingRecognizeRequest);
     }
 
-    /**
-     * Recognizes the speech audio. This method should be called every time a chunk of byte buffer
-     * is ready.
-     *
-     * @param data The audio data.
-     * @param size The number of elements that are actually relevant in the {@code data}.
-     */
+
     public void recognize(byte[] data, int size) {
         if (mRequestObserver == null) {
             return;
@@ -192,15 +176,15 @@ public class SpeechAPI {
      * Finishes recognizing speech audio.
      */
     public void finishRecognizing() {
-        if (mRequestObserver == null) {
-            return;
+        if (mRequestObserver != null) {
+            mRequestObserver.onCompleted();
+            mRequestObserver = null;
         }
-        mRequestObserver.onCompleted();
-        mRequestObserver = null;
+
     }
 
     public interface Listener {
-        //Called when a new piece of text was recognized by the Speech API.
+
         void onSpeechRecognized(String text, boolean isFinal);
     }
 
@@ -213,7 +197,6 @@ public class SpeechAPI {
             String tokenValue = prefs.getString(PREF_ACCESS_TOKEN_VALUE, null);
             long expirationTime = prefs.getLong(PREF_ACCESS_TOKEN_EXPIRATION_TIME, -1);
 
-            // Check if the current token is still valid for a while
             if (tokenValue != null && expirationTime > 0) {
                 if (expirationTime > System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TOLERANCE) {
                     return new AccessToken(tokenValue, new Date(expirationTime));
@@ -246,7 +229,6 @@ public class SpeechAPI {
                     .build();
             mApi = SpeechGrpc.newStub(channel);
 
-            // Schedule access token refresh before it expires
             if (mHandler != null) {
                 mHandler.postDelayed(mFetchAccessTokenRunnable,
                         Math.max(accessToken.getExpirationTime().getTime() - System.currentTimeMillis() - ACCESS_TOKEN_FETCH_MARGIN, ACCESS_TOKEN_EXPIRATION_TOLERANCE));

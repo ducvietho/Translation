@@ -19,24 +19,14 @@ public class VoiceRecorder {
 
     public static abstract class Callback {
 
-        /**
-         * Called when the recorder starts hearing voice.
-         */
+
         public void onVoiceStart() {
         }
 
-        /**
-         * Called when the recorder is hearing voice.
-         *
-         * @param data The audio data in {@link AudioFormat#ENCODING_PCM_16BIT}.
-         * @param size The size of the actual data in {@code data}.
-         */
+
         public void onVoice(byte[] data, int size) {
         }
 
-        /**
-         * Called when the recorder stops hearing voice.
-         */
         public void onVoiceEnd() {
         }
     }
@@ -51,39 +41,27 @@ public class VoiceRecorder {
 
     private final Object mLock = new Object();
 
-    /** The timestamp of the last time that voice is heard. */
     private long mLastVoiceHeardMillis = Long.MAX_VALUE;
 
-    /** The timestamp when the current voice is started. */
     private long mVoiceStartedMillis;
 
     public VoiceRecorder(@NonNull Callback callback) {
         mCallback = callback;
     }
 
-    /**
-     * Starts recording audio.
-     *
-     * <p>The caller is responsible for calling {@link #stop()} later.</p>
-     */
+
     public void start() {
-        // Stop recording if it is currently ongoing.
         stop();
-        // Try to create a new recording session.
         mAudioRecord = createAudioRecord();
         if (mAudioRecord == null) {
             throw new RuntimeException("Cannot instantiate VoiceRecorder");
         }
-        // Start recording.
         mAudioRecord.startRecording();
-        // Start processing the captured audio.
         mThread = new Thread(new ProcessVoice());
         mThread.start();
     }
 
-    /**
-     * Stops recording audio.
-     */
+
     public void stop() {
         synchronized (mLock) {
             dismiss();
@@ -100,9 +78,6 @@ public class VoiceRecorder {
         }
     }
 
-    /**
-     * Dismisses the currently ongoing utterance.
-     */
     public void dismiss() {
         if (mLastVoiceHeardMillis != Long.MAX_VALUE) {
             mLastVoiceHeardMillis = Long.MAX_VALUE;
@@ -110,11 +85,6 @@ public class VoiceRecorder {
         }
     }
 
-    /**
-     * Retrieves the sample rate currently used to record audio.
-     *
-     * @return The sample rate of recorded audio.
-     */
     public int getSampleRate() {
         if (mAudioRecord != null) {
             return mAudioRecord.getSampleRate();
@@ -122,12 +92,6 @@ public class VoiceRecorder {
         return 0;
     }
 
-    /**
-     * Creates a new {@link AudioRecord}.
-     *
-     * @return A newly created {@link AudioRecord}, or null if it cannot be created (missing
-     * permissions?).
-     */
     private AudioRecord createAudioRecord() {
         for (int sampleRate : SAMPLE_RATE_CANDIDATES) {
             final int sizeInBytes = AudioRecord.getMinBufferSize(sampleRate, CHANNEL, ENCODING);
@@ -146,10 +110,6 @@ public class VoiceRecorder {
         return null;
     }
 
-    /**
-     * Continuously processes the captured audio and notifies {@link #mCallback} of corresponding
-     * events.
-     */
     private class ProcessVoice implements Runnable {
 
         @Override

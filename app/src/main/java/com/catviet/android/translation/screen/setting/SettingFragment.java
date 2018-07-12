@@ -20,6 +20,7 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.Purchase;
+import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.catviet.android.translation.R;
 import com.catviet.android.translation.screen.home.HomeActivity;
@@ -68,19 +69,47 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_setting, container, false);
         ButterKnife.bind(this, v);
+
+        mBillingClient = BillingClient.newBuilder(v.getContext()).setListener(SettingFragment.this).build();
+        mBillingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingSetupFinished(int responseCode) {
+//                String purchaseToken = mBillingClient.queryPurchases(BillingClient.SkuType.INAPP).getPurchasesList()
+//                        .get(0).getPurchaseToken();
+//                mBillingClient.consumeAsync(purchaseToken, new ConsumeResponseListener() {
+//                    @Override
+//                    public void onConsumeResponse(int responseCode, String purchaseToken) {
+//
+//                    }
+//                });
+                mBillingClient.queryPurchaseHistoryAsync(BillingClient.SkuType.INAPP, new PurchaseHistoryResponseListener() {
+                    @Override
+                    public void onPurchaseHistoryResponse(int responseCode, List<Purchase> purchasesList) {
+                        if(responseCode == BillingClient.BillingResponse.OK && purchasesList.size()>0){
+                            SharedPreferences.Editor editor = v.getContext().getSharedPreferences(Constants
+                                            .PRE_PREMIUM_USER,
+                                    Context.MODE_PRIVATE).edit();
+                            editor.putBoolean(Constants.EXTRA_IS_PREMIUM_USER,true);
+                            editor.commit();
+                            tvUpgrade.setVisibility(View.GONE);
+                            layoutUpgrade.setVisibility(View.GONE);
+                        }
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onBillingServiceDisconnected() {
+
+            }
+        });
         layoutRate.setOnClickListener(this);
         layoutSupport.setOnClickListener(this);
         layoutShare.setOnClickListener(this);
         layoutUpgrade.setOnClickListener(this);
         setupMoreApp();
-        SharedPreferences sharedPreferences = v.getContext().getSharedPreferences(Constants.PRE_PREMIUM_USER,
-                MODE_PRIVATE);
-        boolean isPremium = sharedPreferences.getBoolean(Constants.EXTRA_IS_PREMIUM_USER,false);
-
-        if(isPremium){
-            tvUpgrade.setVisibility(View.GONE);
-            layoutUpgrade.setVisibility(View.GONE);
-        }
         return v;
     }
     @Override
@@ -121,6 +150,8 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
     public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
         if (responseCode == BillingClient.BillingResponse.OK
                 && purchases != null) {
+            tvUpgrade.setVisibility(View.GONE);
+            layoutUpgrade.setVisibility(View.GONE);
             SharedPreferences.Editor editor = v.getContext().getSharedPreferences(com.catviet.android.translation
                     .utils.Constants.PRE_PREMIUM_USER, MODE_PRIVATE).edit();
             editor.putBoolean(com.catviet.android.translation.utils.Constants.EXTRA_IS_PREMIUM_USER,true);
@@ -134,7 +165,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener,Pu
     }
     private void setUpPurchase(){
 
-        mBillingClient = BillingClient.newBuilder(v.getContext()).setListener(SettingFragment.this).build();
+
         mBillingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponseCode) {

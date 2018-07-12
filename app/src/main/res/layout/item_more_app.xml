@@ -29,7 +29,7 @@
             android:text="Been together"
             android:layout_marginTop="@dimen/dip_5"
             android:textColor="@android:color/black"
-            android:textSize="@dimen/ts_16" />
+            android:textSize="@dimen/ts_14" />
 
     </LinearLayout>
 

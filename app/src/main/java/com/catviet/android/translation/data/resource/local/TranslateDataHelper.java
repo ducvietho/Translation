@@ -27,6 +27,9 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
     public static final String TYPE_COLUMN = "type";
     public static final String TYPE_TRANSLATE_COLUMN = "type_translate";
     public static final String TOTRANSLATE_COLUMN = "toTranslate";
+    public static final String TEXT_TRANSLATE_COLUMN = "text_translate";
+    public static final String CODE_TRANSLATE_COLUMN = "code_translate";
+    public static final String IMAGE_TRANSLATE_COLUMN = "image_translate";
     private static final  String SQL_CREATE_TRANSLATE = " CREATE TABLE "
             +TABLE_NAME
             +"("
@@ -45,7 +48,13 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
             + CODE_COLUMN
             +" TEXT,"
             +TOTRANSLATE_COLUMN
-            +" TEXT"
+            +" TEXT,"
+            +TEXT_TRANSLATE_COLUMN
+            +" TEXT,"
+            +IMAGE_TRANSLATE_COLUMN
+            +" INTEGER,"
+            +CODE_TRANSLATE_COLUMN
+            +" INTEGER"
             +")";
     private static final String SQL_DROP_LANGUAGES =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
@@ -73,6 +82,9 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
         contentValues.put(TYPE_COLUMN,translate.getType());
         contentValues.put(TYPE_TRANSLATE_COLUMN,type);
         contentValues.put(TOTRANSLATE_COLUMN,translate.getToTranslate());
+        contentValues.put(CODE_TRANSLATE_COLUMN,translate.getCodeTranslate());
+        contentValues.put(IMAGE_TRANSLATE_COLUMN,translate.getImageTranslate());
+        contentValues.put(TEXT_TRANSLATE_COLUMN,translate.getTextTranslate());
         database.insert(TABLE_NAME,null,contentValues);
         database.close();
     }
@@ -117,6 +129,9 @@ public class TranslateDataHelper extends SQLiteOpenHelper {
         translate.setText(cursor.getString(cursor.getColumnIndex(TEXT_COLUMN)));
         translate.setType(cursor.getInt(cursor.getColumnIndex(TYPE_COLUMN)));
         translate.setToTranslate(cursor.getString(cursor.getColumnIndex(TOTRANSLATE_COLUMN)));
+        translate.setCodeTranslate(cursor.getString(cursor.getColumnIndex(CODE_TRANSLATE_COLUMN)));
+        translate.setImageTranslate(cursor.getInt(cursor.getColumnIndex(IMAGE_TRANSLATE_COLUMN)));
+        translate.setTextTranslate(cursor.getString(cursor.getColumnIndex(TEXT_TRANSLATE_COLUMN)));
        return translate;
     }
 }

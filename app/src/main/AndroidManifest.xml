@@ -38,20 +38,9 @@
         </activity>
         <activity
             android:configChanges="keyboardHidden|screenSize|orientation"
-            android:name=".screen.voice.VoiceActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:configChanges="keyboardHidden|screenSize|orientation"
             android:name=".screen.edit.EditActivity"
             android:screenOrientation="portrait">
         </activity>
-        <activity
-            android:configChanges="keyboardHidden|screenSize|orientation"
-            android:name=".screen.translate.TranslateActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
         <receiver android:name=".service.InternetService">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
@@ -59,8 +48,11 @@
         </receiver>
 
         <receiver
-            android:enabled="true"
+
             android:name=".service.AlarmOnReceiver"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="d70185ad698e7cdd5a82d5a27c2b8bcc7f9e61fb" />
     </application>
 
 </manifest>

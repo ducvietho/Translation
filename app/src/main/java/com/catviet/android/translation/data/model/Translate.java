@@ -11,6 +11,10 @@ public class Translate {
     private String mLanguage;
     private int mType;
     private String mToTranslate;
+    private String mTextTranslate;
+    private int mImageTranslate;
+    private String mCodeTranslate;
+    private String mLanguageTranslate;
     public Translate() {
     }
 
@@ -21,6 +25,52 @@ public class Translate {
         mLanguage = language;
         mType = type;
         mToTranslate = toTranslate;
+    }
+
+    public Translate(String text, int image, String code, String language, int type, String toTranslate,
+                     String textTranslate, int imageTranslate, String codeTranslate, String languageTranslate) {
+        mText = text;
+        mImage = image;
+        mCode = code;
+        mLanguage = language;
+        mType = type;
+        mToTranslate = toTranslate;
+        mTextTranslate = textTranslate;
+        mImageTranslate = imageTranslate;
+        mCodeTranslate = codeTranslate;
+        mLanguageTranslate = languageTranslate;
+    }
+
+    public String getTextTranslate() {
+        return mTextTranslate;
+    }
+
+    public void setTextTranslate(String textTranslate) {
+        mTextTranslate = textTranslate;
+    }
+
+    public int getImageTranslate() {
+        return mImageTranslate;
+    }
+
+    public void setImageTranslate(int imageTranslate) {
+        mImageTranslate = imageTranslate;
+    }
+
+    public String getCodeTranslate() {
+        return mCodeTranslate;
+    }
+
+    public void setCodeTranslate(String codeTranslate) {
+        mCodeTranslate = codeTranslate;
+    }
+
+    public String getLanguageTranslate() {
+        return mLanguageTranslate;
+    }
+
+    public void setLanguageTranslate(String languageTranslate) {
+        mLanguageTranslate = languageTranslate;
     }
 
     public String getToTranslate() {

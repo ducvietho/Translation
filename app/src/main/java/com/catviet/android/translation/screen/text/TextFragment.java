@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -67,12 +68,15 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
     LinearLayout mLayoutDetect;
     @BindView(R.id.layout_translate)
     LinearLayout mLayoutTranslate;
-
+    @BindView(R.id.layout_empty)
+    LinearLayout emptyLayout;
     TranslateDataHelper mDataHelper;
     List<Translate> mTranslates = new ArrayList<>();
     TranslateAdapter mTranslateAdapter;
-    TextToSpeechManager mToSpeechManager = null;
+
     View v;
+    public static TextViewLight tvInternet;
+
     public TextFragment() {
         // Required empty public constructor
     }
@@ -91,7 +95,17 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
         mLayoutDetect.setOnClickListener(this);
         mLayoutTranslate.setOnClickListener(this);
         mTranslates = mDataHelper.getDataText();
+        if (mTranslates.size()>0){
+            emptyLayout.setVisibility(View.GONE);
+        }
+        tvInternet = (TextViewLight)v.findViewById(R.id.tv_internet_connection);
+        ConnectivityManager cm = (ConnectivityManager)v.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if(cm.getActiveNetworkInfo() == null){
+            tvInternet.setVisibility(View.VISIBLE);
+        }else {
+            tvInternet.setVisibility(View.GONE);
 
+        }
         final LinearLayoutManager manager = new LinearLayoutManager(v.getContext());
         manager.setStackFromEnd(true);
         mRecyclerTranslate.setLayoutManager(manager);
@@ -175,7 +189,7 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
 
     @Override
     public void speakText(Translate translate) {
-        mToSpeechManager = new TextToSpeechManager();
+        TextToSpeechManager mToSpeechManager = new TextToSpeechManager();
         mToSpeechManager.init(v.getContext(), translate.getCode(), translate.getText());
     }
     private void translate() {
@@ -213,7 +227,7 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
                         lanDetectSend.getCode(), lanDetectSend.getName(), 0,
                         lanDetectSend.getName()+" to "+lanTranslateSend.getName());
                 mTranslates.add(translate1);
-                mDataHelper.insert(translate1,0);
+                //mDataHelper.insert(translate1,0);
             }else {
                 Log.i("To translate",lang);
                 if(lang.equals(infor)){
@@ -221,7 +235,7 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
                             lanDetectSend.getCode(), lanDetectSend.getName(), 0,
                             lanDetectSend.getName()+" to "+lanTranslateSend.getName());
                     mTranslates.add(translate);
-                    mDataHelper.insert(translate,0);
+                    //mDataHelper.insert(translate,0);
                 }else {
                     SharedPreferences sharedPreferencesText = v.getContext().getSharedPreferences(Constants.PRE_TOTRANSLATE,
                             MODE_PRIVATE);
@@ -236,15 +250,17 @@ public class TextFragment extends Fragment implements View.OnClickListener,OnCli
                             lanDetectSend.getCode(), lanDetectSend.getName(), 0,
                             lanDetectSend.getName()+" to "+lanTranslateSend.getName());
                     mTranslates.add(translate1);
-                    mDataHelper.insert(translate1,0);
+                    //mDataHelper.insert(translate1,0);
                 }
             }
 
             mTranslateAdapter.notifyDataSetChanged();
             mRecyclerTranslate.smoothScrollToPosition(mTranslates.size());
-            TranslateAPI translateAPI = new TranslateAPI(v.getContext(), lanDetectSend.getCode(), lanTranslateSend.getCode(),
-                    mTranslates, mTranslateAdapter,mRecyclerTranslate, 0);
+            TranslateAPI translateAPI = new TranslateAPI(v.getContext(), lanDetectSend, lanTranslateSend,
+                    mTranslates, mTranslateAdapter,mRecyclerTranslate, 0,mTranslates.size()-1,edType.getText()
+                    .toString());
             translateAPI.execute(edType.getText().toString());
+            emptyLayout.setVisibility(View.GONE);
             edType.setText("");
         } else {
             Toast.makeText(v.getContext(), "Please enter text", Toast.LENGTH_LONG).show();

@@ -2,6 +2,8 @@
 <resources>
     <dimen name="height_toolbar">50dp</dimen>
     <dimen name="height_title">45dp</dimen>
+    <dimen name="dip_2">2dp</dimen>
+    <dimen name="dip_25">25dp</dimen>
     <dimen name="ts_14">12sp</dimen>
     <dimen name="ts_16">14sp</dimen>
     <dimen name="ts_18">16sp</dimen>

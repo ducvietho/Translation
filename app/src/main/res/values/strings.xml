@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Translation App</string>
     <string name="title">Translation</string>
     <string name="text">Text</string>
@@ -25,5 +25,11 @@
     <string name="support">Support</string>
     <string name="share_app">Share App</string>
     <string name="restore">Restore Purchase</string>
+    <string name="empty_item_voice" tools:ignore="StringEscaping">You haven\'t got any translation yet.\nTalk
+        something and translate now</string>
+    <string name="empty_item_text" tools:ignore="StringEscaping">You haven\'t got any translation yet.\nWrite
+        something and translate now</string>
+    <string name="empty_item_camera" tools:ignore="StringEscaping">You haven\'t got any translation yet.\nTake a photo
+        and translate now</string>
     <string name="banner_ad_unit_id">ca-app-pub-4154334692952403/6776252978</string>
 </resources>

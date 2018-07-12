@@ -14,15 +14,25 @@ import com.catviet.android.translation.service.AlarmOnReceiver;
 
 public class AlarmAdsFull {
     private Context mContext;
+    private AlarmManager manager;
+    private PendingIntent pendingIntent;
+    private Intent myIntent;
 
     public AlarmAdsFull(Context context) {
         mContext = context;
+        manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        myIntent = new Intent(context, AlarmOnReceiver.class);
     }
-    public void alarmAdsFull(){
-        AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        Intent myIntent = new Intent(mContext, AlarmOnReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 0, myIntent,0);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(),3*60*1000,
-                pendingIntent);
+
+    public void alarmAdsFull() {
+        pendingIntent = PendingIntent.getBroadcast(mContext, 0, myIntent, 0);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 3 * 60 * 1000, pendingIntent);
+    }
+
+    public void cancel() {
+
+
+        pendingIntent = PendingIntent.getBroadcast(mContext, 0, myIntent, 0);
+        manager.cancel(pendingIntent);
     }
 }

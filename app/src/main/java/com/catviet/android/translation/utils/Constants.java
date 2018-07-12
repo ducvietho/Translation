@@ -5,7 +5,7 @@ package com.catviet.android.translation.utils;
  */
 
 public class Constants {
-    public static final String GOOGLE_VISION_API_KEY = "AIzaSyA_0gKAzRzQcWAYR8LfLIk1eM0P3VBe8Wk";
+    public static final String GOOGLE_VISION_API_KEY = "AIzaSyAobuSj0xBcbT5ySCUcmjBvTYoPwJJp_9w";
     public static final String MARKET_DETAILS_ID = "https://play.google.com/store/apps/details?id=";
     public static final String PLAY_STORE_LINK = "https://play.google.com/store/apps/details?id=";
     public static final String PLAY_STORE_PPCLINK = "https://play.google.com/store/apps/dev?id=8500255335661561211";

@@ -25,7 +25,7 @@ public class AlarmOnReceiver extends BroadcastReceiver {
         boolean isPremium = sharedPreferences.getBoolean(Constants.EXTRA_IS_PREMIUM_USER,false);
         if(!isPremium){
             mInterstitialAd = new InterstitialAd(context);
-            mInterstitialAd.setAdUnitId("ca-app-pub-7927828976820333/4775411008");
+            mInterstitialAd.setAdUnitId("ca-app-pub-4154334692952403/8161249770");
             mInterstitialAd.loadAd(new AdRequest.Builder()
                     .addTestDevice("B1275FEF015C0FDAF096A04ADDC853BB")
                     .addTestDevice("FEA7581C72C93EEABE8145B2780726A1")

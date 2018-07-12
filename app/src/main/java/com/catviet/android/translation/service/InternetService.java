@@ -19,11 +19,21 @@ import com.catviet.android.translation.screen.voice.VoiceFragment;
 public class InternetService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(cm.getActiveNetworkInfo() == null){
-            HomeActivity.tvInternet.setVisibility(View.VISIBLE);
-        }else {
-            HomeActivity.tvInternet.setVisibility(View.GONE);
+        if (cm.getActiveNetworkInfo() == null) {
+            if(VoiceFragment.tvInternet!=null&& TextFragment.tvInternet!=null&&CameraFragment.tvInternet!=null){
+                VoiceFragment.tvInternet.setVisibility(View.VISIBLE);
+                TextFragment.tvInternet.setVisibility(View.VISIBLE);
+                CameraFragment.tvInternet.setVisibility(View.VISIBLE);
+            }
+
+        } else {
+            if(VoiceFragment.tvInternet!=null&& TextFragment.tvInternet!=null&&CameraFragment.tvInternet!=null){
+                VoiceFragment.tvInternet.setVisibility(View.GONE);
+                TextFragment.tvInternet.setVisibility(View.GONE);
+                CameraFragment.tvInternet.setVisibility(View.GONE);
+            }
 
         }
     }
